@@ -30,8 +30,6 @@ public class MoodHistoryActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-
         recyclerViewAdapter = new RecyclerViewAdapter(this, mListOfDays);
         recyclerView.setAdapter(recyclerViewAdapter);
     }

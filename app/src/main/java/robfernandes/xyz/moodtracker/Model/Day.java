@@ -21,6 +21,14 @@ public class Day {
         return moodType;
     }
 
+    public boolean hasNote() {
+        if (note.equals("")) {
+            return false;
+        }
+
+        return true;
+    }
+
     public String getNote() {
         return note;
     }

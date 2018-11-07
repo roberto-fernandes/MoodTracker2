@@ -65,8 +65,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Day day = mDayList.get(i);
         int numberOfDaysAgo= mDayList.size()-i;
-        String text="title";
+        String text=numberOfDaysAgo+ " Days ago";
         viewHolder.title.setText(text);
+        if (day.hasNote()) {
+            viewHolder.noteImage.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.noteImage.setVisibility(View.INVISIBLE);
+        }
     }
 
 
