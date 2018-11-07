@@ -1,4 +1,4 @@
-package robfernandes.xyz.moodtracker;
+package robfernandes.xyz.moodtracker.Controller;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import robfernandes.xyz.moodtracker.R;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener, GestureDetector.OnGestureListener {
