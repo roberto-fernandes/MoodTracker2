@@ -1,6 +1,7 @@
 package robfernandes.xyz.moodtracker.Controller;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import robfernandes.xyz.moodtracker.R;
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener, GestureDetector.OnGestureListener {
 
         private ImageView addNoteImage;
+        private ImageView moodHistoryImage;
 
         private GestureDetector mGestureDetector;
 
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             findViewById(android.R.id.content).setOnTouchListener(this);
 
             addNoteImage = findViewById(R.id.activity_main_note_image);
+            moodHistoryImage = findViewById(R.id.activity_main_history_image);
 
             //show alert dialog
             addNoteImage.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +58,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                             }
                         });
                 builder.create().show();
+            }
+        });
+
+        moodHistoryImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MoodHistoryActivity.class);
+                startActivity(intent);
             }
         });
 
