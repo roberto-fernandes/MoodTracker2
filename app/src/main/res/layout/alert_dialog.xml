@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/Comment"
+        android:gravity="center_vertical"
+        android:layout_margin="10dp"/>
+
+    <EditText
+        android:id="@+id/alert_dialog_note_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:hint="@string/CommentHint"
+        android:inputType="text"
+        android:layout_margin="10dp"/>
+
+</android.support.v7.widget.LinearLayoutCompat>

@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">MoodTracker</string>
+    <string name="Great_mood">Great moodType</string>
+    <string name="Add_note">Add Note</string>
+    <string name="mood_history">Mood History</string>
+    <string name="NoteDescription">Note Description</string>
+    <string name="OneWeekAgo">One Week Ago</string>
+    <string name="SixDaysAgo">Six Days Ago</string>
+    <string name="FiveDaysAgo">Five Days Ago</string>
+    <string name="FourDaysAgo">Four Days Ago</string>
+    <string name="ThreeDaysAgo">Three Days Ago</string>
+    <string name="TwoDaysAgo">Two Days Ago</string>
+    <string name="Yesterday">Yesterday</string>
+    <string name="Comment">Comment</string>
+    <string name="CommentHint">Add your note</string>
+    <string name="AddNote">Add Note</string>
+    <string name="Cancel">Cancel</string>
 </resources>
