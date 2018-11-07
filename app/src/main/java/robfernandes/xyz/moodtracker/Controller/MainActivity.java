@@ -12,6 +12,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import java.util.List;
+
+import robfernandes.xyz.moodtracker.Model.MoodHistory;
+import robfernandes.xyz.moodtracker.Model.MoodType;
 import robfernandes.xyz.moodtracker.R;
 
 
@@ -19,19 +23,27 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         private ImageView addNoteImage;
         private ImageView moodHistoryImage;
+        private ImageView faceImage;
+        private View background;
 
         private GestureDetector mGestureDetector;
+        private List<MoodType> mMoodTypes;
+        private int mCurrentMoodID;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
-            mGestureDetector = new GestureDetector(this, this   );
 
+            mGestureDetector = new GestureDetector(this, this   );
             findViewById(android.R.id.content).setOnTouchListener(this);
+            mMoodTypes = MoodHistory.getMoodTypes();
+            mCurrentMoodID=mMoodTypes.size()-1;
 
             addNoteImage = findViewById(R.id.activity_main_note_image);
             moodHistoryImage = findViewById(R.id.activity_main_history_image);
+            background  = findViewById(R.id.activity_main_background);
+            faceImage = findViewById(R.id.activity_main_face_image);
 
             //show alert dialog
             addNoteImage.setOnClickListener(new View.OnClickListener() {
@@ -117,11 +129,32 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         //endregion
 
         private void nextMood () {
-
+            int lastItem=mMoodTypes.size()-1;
+            if (mCurrentMoodID>=lastItem) {
+                mCurrentMoodID=0;
+            }
+            else {
+                mCurrentMoodID++;
+            }
+            setUI();
         }
 
         private void previousMood() {
+            int lastItem=mMoodTypes.size()-1;
+            if (mCurrentMoodID<=0) {
+                mCurrentMoodID=lastItem;
+            }
+            else {
+                mCurrentMoodID--;
+            }
+            setUI();
+        }
 
+        private void setUI() {
+            MoodType moodType = mMoodTypes.get(mCurrentMoodID);
+
+            background.setBackgroundColor(getResources().getColor(moodType.getBackgroundColor()));
+            faceImage.setImageResource(moodType.getFaceImage());
         }
 }
 
