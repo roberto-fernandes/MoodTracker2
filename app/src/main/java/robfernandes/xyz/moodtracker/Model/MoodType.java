@@ -27,4 +27,5 @@ public class MoodType {
     public int getFaceImage() {
         return faceImage;
     }
+
 }

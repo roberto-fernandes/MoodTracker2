@@ -11,10 +11,10 @@ import robfernandes.xyz.moodtracker.R;
 public class MoodHistory {
     private List<Day> moodHistory;
     private static final List<MoodType> sMoodTypes= new ArrayList<MoodType>() {{
-        add(new MoodType(20, R.color.faded_red, R.drawable.smiley_sad));
-        add(new MoodType(40, R.color.warm_grey, R.drawable.smiley_disappointed));
-        add(new MoodType(60, R.color.cornflower_blue_65, R.drawable.smiley_normal));
-        add(new MoodType(80, R.color.light_sage, R.drawable.smiley_happy));
+        add(new MoodType(40, R.color.faded_red, R.drawable.smiley_sad));
+        add(new MoodType(55, R.color.warm_grey, R.drawable.smiley_disappointed));
+        add(new MoodType(70, R.color.cornflower_blue_65, R.drawable.smiley_normal));
+        add(new MoodType(85, R.color.light_sage, R.drawable.smiley_happy));
         add(new MoodType(100, R.color.banana_yellow, R.drawable.smiley_super_happy));
     }};
 
