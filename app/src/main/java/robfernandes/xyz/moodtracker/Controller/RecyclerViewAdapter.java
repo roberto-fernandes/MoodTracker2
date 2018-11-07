@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import robfernandes.xyz.moodtracker.Model.MoodDay;
+import robfernandes.xyz.moodtracker.Model.Day;
 import robfernandes.xyz.moodtracker.R;
 
 /**
@@ -19,11 +19,11 @@ import robfernandes.xyz.moodtracker.R;
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private Context mContext;
-    private List<MoodDay> mMoodDayList;
+    private List<Day> mDayList;
 
-    public RecyclerViewAdapter(Context context, List<MoodDay> listMoods) {
+    public RecyclerViewAdapter(Context context, List<Day> listMoods) {
         mContext = context;
-        mMoodDayList = listMoods;
+        mDayList = listMoods;
     }
 
     @NonNull
@@ -35,7 +35,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return mMoodDayList.size();
+        return mDayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -55,7 +55,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public void onClick(View v) {
             int position = getAdapterPosition();
 
-            MoodDay moodDay = mMoodDayList.get(position);
+            Day day = mDayList.get(position);
 
             //display toast
         }
@@ -63,8 +63,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        MoodDay moodDay = mMoodDayList.get(i);
-        int numberOfDaysAgo=mMoodDayList.size()-i;
+        Day day = mDayList.get(i);
+        int numberOfDaysAgo= mDayList.size()-i;
         String text="title";
         viewHolder.title.setText(text);
     }
