@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         private ImageView faceImage;
         private View background;
 
+        private MediaPlayer mMediaPlayer;
         private GestureDetector mGestureDetector;
         private List<MoodType> mMoodTypes;
         private Day mLastDay;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             mLastDay = mMoodHistory.loadCurrentDay();
             mCurrentMoodTypeID =mLastDay.getMoodType().getMoodTypeID();
             mNote = mLastDay.getNote();
+            mMediaPlayer= new MediaPlayer();
 
             addNoteImage = findViewById(R.id.activity_main_note_image);
             moodHistoryImage = findViewById(R.id.activity_main_history_image);
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             setUI();
 
+            mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.happy);
             //show alert dialog
             addNoteImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 mCurrentMoodTypeID++;
             }
             setUI();
+            playSoundWhenHappy();
         }
 
         private void previousMood() {
@@ -165,15 +170,28 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             else {
                 mCurrentMoodTypeID--;
             }
+            if (mCurrentMoodTypeID==4) {
+                mMediaPlayer.start();
+            }
             setUI();
+            playSoundWhenHappy();
         }
+
 
         private void setUI() {
             MoodType moodType = mMoodTypes.get(mCurrentMoodTypeID);
 
             background.setBackgroundColor(getResources().getColor(moodType.getBackgroundColor()));
             faceImage.setImageResource(moodType.getFaceImage());
+
         }
+
+        private void playSoundWhenHappy() {
+            if (mCurrentMoodTypeID==4) {
+                mMediaPlayer.start();
+            }
+        }
+
 
     private void startAlarmManager () {
         Calendar midnight = Calendar.getInstance(); //gets right now
@@ -195,9 +213,20 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         mMoodHistory.saveCurrentDay(mCurrentDay);
     }
 
+
+    private void realiseMediaPlayer () {
+            if (mMediaPlayer!=null) {
+                if (mMediaPlayer.isPlaying()) {
+                    mMediaPlayer.stop();
+                }
+                mMediaPlayer.release();
+            }
+    }
+
     @Override
     protected void onDestroy() {
         saveCurrentDay ();
+        realiseMediaPlayer();
         super.onDestroy();
     }
 }

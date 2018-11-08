@@ -97,7 +97,7 @@ public class MoodHistory {
     private List<Day> generateDumbData () {
         List<Day> dayList = new ArrayList<>();
 
-        dayList.add(new Day(sMOOD_TYPES.get(0), "Some note"));
+        dayList.add(new Day(sMOOD_TYPES.get(0), "Just some data example"));
         dayList.add(new Day(sMOOD_TYPES.get(1)));
         dayList.add(new Day(sMOOD_TYPES.get(2), "Another note"));
         dayList.add(new Day(sMOOD_TYPES.get(3)));

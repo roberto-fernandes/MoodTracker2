@@ -13,6 +13,6 @@
     <string name="Yesterday">Yesterday</string>
     <string name="Comment">Comment</string>
     <string name="CommentHint">Add your note</string>
-    <string name="AddNote">Add Note</string>
-    <string name="Cancel">Cancel</string>
+    <string name="AddNote">CONFIRM</string>
+    <string name="Cancel">CANCEL</string>
 </resources>
