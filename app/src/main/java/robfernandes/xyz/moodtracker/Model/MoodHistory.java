@@ -16,9 +16,6 @@ import robfernandes.xyz.moodtracker.R;
  * Created by Roberto Fernandes on 07/11/2018.
  */
 public class MoodHistory {
-    private List<Day> dayHistory;
-    public static final int sMAX_NUM_OF_DAYS =7;
-    private Context context;
     private static final List<MoodType> sMOOD_TYPES = new ArrayList<MoodType>() {{
         add(new MoodType(40, R.color.faded_red, R.drawable.smiley_sad, 0));
         add(new MoodType(55, R.color.warm_grey, R.drawable.smiley_disappointed, 1));
@@ -26,8 +23,11 @@ public class MoodHistory {
         add(new MoodType(85, R.color.light_sage, R.drawable.smiley_happy, 3));
         add(new MoodType(100, R.color.banana_yellow, R.drawable.smiley_super_happy, 4));
     }};
-    private SharedPreferences sharedPreferences;
     private static final Day s_DEFAULT_DAY = new Day(sMOOD_TYPES.get(4));
+    public static final int sMAX_NUM_OF_DAYS =7;
+    private Context context;
+    private List<Day> dayHistory = new ArrayList<>();
+    private SharedPreferences sharedPreferences;
 
     public MoodHistory(Context context) {
         this.context=context;
