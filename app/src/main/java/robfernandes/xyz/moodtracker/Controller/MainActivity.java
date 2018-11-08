@@ -79,11 +79,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 }
                 // Inflate and set the layout for the dialog
                 builder.setView(mAlertDialogView)
-                        // Add action buttons
                         .setPositiveButton(R.string.Add_note, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
-                                //add note
                                 mNote=alertDialogNote.getText().toString();
                             }
                         })
