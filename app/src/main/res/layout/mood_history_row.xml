@@ -16,14 +16,14 @@
         <android.support.constraint.ConstraintLayout
             android:id="@+id/mood_history_row_constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/mood_history_row_title_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/Yesterday"
                 android:textSize="15sp"
@@ -36,15 +36,12 @@
                 android:id="@+id/mood_history_row_note_imageView"
                 android:layout_width="23dp"
                 android:layout_height="26dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="24dp"
                 android:layout_marginBottom="2dp"
                 android:contentDescription="@string/Comment"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0"
                 app:srcCompat="@drawable/ic_comment_black_48px" />
         </android.support.constraint.ConstraintLayout>
 
