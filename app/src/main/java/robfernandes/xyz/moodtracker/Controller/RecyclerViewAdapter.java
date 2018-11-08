@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -61,8 +62,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             int position = getAdapterPosition();
 
             Day day = mDayList.get(position);
-
-            //display toast
+            if (day.hasNote()) {
+                Toast.makeText(mContext, day.getNote(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
