@@ -58,7 +58,6 @@ public class MoodHistory {
         Gson gson = new Gson();
         String json = gson.toJson(day);
         prefsEditor.putString("CurrentDay", json);
-        System.out.println("is saving");
         prefsEditor.apply();
     }
 
@@ -66,12 +65,9 @@ public class MoodHistory {
         Day day;
         Gson gson = new Gson();
         String json = sharedPreferences.getString("CurrentDay", null);
-        System.out.println("is loading");
         if (json != null) {
-            System.out.println("not null");
             day = gson.fromJson(json, Day.class);
         } else {
-            System.out.println("null");
             day = sDefaultDay;
         }
         return day;

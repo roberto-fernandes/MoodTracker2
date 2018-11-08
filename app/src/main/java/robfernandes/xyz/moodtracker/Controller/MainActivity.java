@@ -62,17 +62,20 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 // Get the layout inflater
                 LayoutInflater inflater = MainActivity.this.getLayoutInflater();
-                View mView =inflater.inflate(R.layout.alert_dialog, null);
-                final EditText alertDialogNote = mView.findViewById(R.id.alert_dialog_note_EditText);
-                //Reminder: If there is a note alertDialogNote.setText(note) here;
-
+                View mAlertDialogView =inflater.inflate(R.layout.alert_dialog, null);
+                final EditText alertDialogNote = mAlertDialogView.findViewById(R.id.alert_dialog_note_EditText);
+                //If there is a note it shows
+                if (!alertDialogNote.getText().equals("")) {
+                    alertDialogNote.setText(mNote);
+                }
                 // Inflate and set the layout for the dialog
-                builder.setView(mView)
+                builder.setView(mAlertDialogView)
                         // Add action buttons
                         .setPositiveButton(R.string.Add_note, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
-                                // store note to memory...
+                                //add note
+                                mNote=alertDialogNote.getText().toString();
                             }
                         })
                         .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
