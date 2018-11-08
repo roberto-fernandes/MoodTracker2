@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,23 +37,30 @@ public class MoodHistory {
         return sMoodTypes;
     }
 
-    public List<Day> loadMoodHistoryFromMemory () {
-        moodHistory = generateDumbData ();
+
+
+    public void saveDayHistoryToMemory () {
+        SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(moodHistory);
+        prefsEditor.putString("DayHistory", json);
+        prefsEditor.apply();
+    }
+
+    public List<Day> loadDayHistoryFromMemory() {
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("DayHistory", null);
+
+        //if there is data loads data from memory
+        if (json!=null) {
+            Type type = new TypeToken<ArrayList<Day>>() {}.getType();
+            moodHistory = gson.fromJson(json, type);
+        } else { //if the data is empty generates dumb data
+            moodHistory = generateDumbData();
+        }
         return moodHistory;
     }
 
-    private List<Day> generateDumbData () {
-        List<Day> dayList = new ArrayList<>();
-
-        dayList.add(new Day(sMoodTypes.get(0), "Some note"));
-        dayList.add(new Day(sMoodTypes.get(1)));
-        dayList.add(new Day(sMoodTypes.get(2), "Another note"));
-        dayList.add(new Day(sMoodTypes.get(3)));
-        dayList.add(new Day(sMoodTypes.get(4)));
-        dayList.add(new Day(sMoodTypes.get(2), "Some other note"));
-        dayList.add(new Day(sMoodTypes.get(0)));
-        return dayList;
-    }
 
     public void saveCurrentDay (Day day) {
         SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
@@ -71,5 +80,19 @@ public class MoodHistory {
             day = sDefaultDay;
         }
         return day;
+    }
+
+
+    private List<Day> generateDumbData () {
+        List<Day> dayList = new ArrayList<>();
+
+        dayList.add(new Day(sMoodTypes.get(0), "Some note"));
+        dayList.add(new Day(sMoodTypes.get(1)));
+        dayList.add(new Day(sMoodTypes.get(2), "Another note"));
+        dayList.add(new Day(sMoodTypes.get(3)));
+        dayList.add(new Day(sMoodTypes.get(4)));
+        dayList.add(new Day(sMoodTypes.get(2), "Some other note"));
+        dayList.add(new Day(sMoodTypes.get(0)));
+        return dayList;
     }
 }

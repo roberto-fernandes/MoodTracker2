@@ -24,7 +24,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mood_history);
 
         mMoodHistory=new MoodHistory(this);
-        mListOfDays =mMoodHistory.loadMoodHistoryFromMemory();
+        mListOfDays =mMoodHistory.loadDayHistoryFromMemory();
 
         recyclerView = findViewById(R.id.activity_mood_recyclerView);
         recyclerView.setHasFixedSize(true);
