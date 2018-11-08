@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import java.util.List;
 
+import robfernandes.xyz.moodtracker.Model.Day;
 import robfernandes.xyz.moodtracker.Model.MoodHistory;
 import robfernandes.xyz.moodtracker.Model.MoodType;
 import robfernandes.xyz.moodtracker.R;
@@ -28,7 +29,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         private GestureDetector mGestureDetector;
         private List<MoodType> mMoodTypes;
-        private int mCurrentMoodID;
+        private Day mLastDay;
+        private int mCurrentMoodTypeID;
+        private MoodHistory mMoodHistory;
+        private String mNote;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +41,19 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             mGestureDetector = new GestureDetector(this, this   );
             findViewById(android.R.id.content).setOnTouchListener(this);
+            mMoodHistory = new MoodHistory(this);
             mMoodTypes = MoodHistory.getMoodTypes();
-            mCurrentMoodID=mMoodTypes.size()-1;
+            mLastDay = mMoodHistory.loadCurrentDay();
+            mCurrentMoodTypeID =mLastDay.getMoodType().getMoodTypeID();
+            mNote = mLastDay.getNote();
+
 
             addNoteImage = findViewById(R.id.activity_main_note_image);
             moodHistoryImage = findViewById(R.id.activity_main_history_image);
             background  = findViewById(R.id.activity_main_background);
             faceImage = findViewById(R.id.activity_main_face_image);
+
+            setUI();
 
             //show alert dialog
             addNoteImage.setOnClickListener(new View.OnClickListener() {
@@ -130,31 +140,38 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         private void nextMood () {
             int lastItem=mMoodTypes.size()-1;
-            if (mCurrentMoodID>=lastItem) {
-                mCurrentMoodID=0;
+            if (mCurrentMoodTypeID >=lastItem) {
+                mCurrentMoodTypeID =0;
             }
             else {
-                mCurrentMoodID++;
+                mCurrentMoodTypeID++;
             }
             setUI();
         }
 
         private void previousMood() {
             int lastItem=mMoodTypes.size()-1;
-            if (mCurrentMoodID<=0) {
-                mCurrentMoodID=lastItem;
+            if (mCurrentMoodTypeID <=0) {
+                mCurrentMoodTypeID =lastItem;
             }
             else {
-                mCurrentMoodID--;
+                mCurrentMoodTypeID--;
             }
             setUI();
         }
 
         private void setUI() {
-            MoodType moodType = mMoodTypes.get(mCurrentMoodID);
+            MoodType moodType = mMoodTypes.get(mCurrentMoodTypeID);
 
             background.setBackgroundColor(getResources().getColor(moodType.getBackgroundColor()));
             faceImage.setImageResource(moodType.getFaceImage());
         }
+
+    @Override
+    protected void onDestroy() {
+        Day mCurrentDay = new Day(mMoodTypes.get(mCurrentMoodTypeID), mNote)  ;
+        mMoodHistory.saveCurrentDay(mCurrentDay);
+        super.onDestroy();
+    }
 }
 

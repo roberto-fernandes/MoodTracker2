@@ -4,15 +4,16 @@ package robfernandes.xyz.moodtracker.Model;
  * Created by Roberto Fernandes on 07/11/2018.
  */
 public class MoodType {
-
+    private int moodTypeID;
     private int widthPercentage;
     private int backgroundColor;
     private int faceImage;
 
-    public MoodType(int widthPercentage, int backgroundColor, int faceImage) {
+    public MoodType(int widthPercentage, int backgroundColor, int faceImage, int moodTypeID) {
         this.widthPercentage = widthPercentage;
         this.backgroundColor = backgroundColor;
         this.faceImage = faceImage;
+        this.moodTypeID=moodTypeID;
     }
 
 
@@ -28,4 +29,7 @@ public class MoodType {
         return faceImage;
     }
 
+    public int getMoodTypeID() {
+        return moodTypeID;
+    }
 }
