@@ -1,5 +1,8 @@
 package robfernandes.xyz.moodtracker.Controller;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import java.util.Calendar;
 import java.util.List;
 
 import robfernandes.xyz.moodtracker.Model.Day;
@@ -38,15 +42,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
+            startAlarmManager ();
 
             mGestureDetector = new GestureDetector(this, this   );
             findViewById(android.R.id.content).setOnTouchListener(this);
             mMoodHistory = new MoodHistory(this);
-            mMoodTypes = MoodHistory.getMoodTypes();
+            mMoodTypes = MoodHistory.getsMOOD_TYPES();
             mLastDay = mMoodHistory.loadCurrentDay();
             mCurrentMoodTypeID =mLastDay.getMoodType().getMoodTypeID();
             mNote = mLastDay.getNote();
-
 
             addNoteImage = findViewById(R.id.activity_main_note_image);
             moodHistoryImage = findViewById(R.id.activity_main_history_image);
@@ -67,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 //If there is a note it shows
                 if (!alertDialogNote.getText().equals("")) {
                     alertDialogNote.setText(mNote);
+                    saveCurrentDay ();
                 }
                 // Inflate and set the layout for the dialog
                 builder.setView(mAlertDialogView)
@@ -170,10 +175,29 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             faceImage.setImageResource(moodType.getFaceImage());
         }
 
-    @Override
-    protected void onDestroy() {
+    private void startAlarmManager () {
+        Calendar midnight = Calendar.getInstance(); //gets right now
+        midnight.set(Calendar.HOUR_OF_DAY, 0);
+        midnight.set(Calendar.MINUTE, 0);
+        midnight.set(Calendar.SECOND, 0);
+        midnight.add(Calendar.DATE, 1);    //tomorrow
+
+        AlarmManager alarmManager =(AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmManagerReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent,0 );
+
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, midnight.getTimeInMillis() ,AlarmManager.INTERVAL_DAY, pendingIntent);
+
+    }
+
+    private void saveCurrentDay () {
         Day mCurrentDay = new Day(mMoodTypes.get(mCurrentMoodTypeID), mNote)  ;
         mMoodHistory.saveCurrentDay(mCurrentDay);
+    }
+
+    @Override
+    protected void onDestroy() {
+        saveCurrentDay ();
         super.onDestroy();
     }
 }
