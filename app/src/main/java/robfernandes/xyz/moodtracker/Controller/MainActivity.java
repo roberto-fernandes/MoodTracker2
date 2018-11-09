@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         midnight.add(Calendar.DATE, 1);    //tomorrow
 
         AlarmManager alarmManager =(AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlarmManagerReceiver.class);
+        Intent intent = new Intent(getApplicationContext(), AlarmManagerReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent,0 );
 
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, midnight.getTimeInMillis() ,AlarmManager.INTERVAL_DAY, pendingIntent);
