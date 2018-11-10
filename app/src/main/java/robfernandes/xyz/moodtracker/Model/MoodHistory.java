@@ -42,7 +42,7 @@ public class MoodHistory {
     public void updateDays () {
         Day currentDay =loadCurrentDay();
         if (dayHistory.size()>=sMAX_NUM_OF_DAYS) {
-            dayHistory.remove(dayHistory.size()-1);
+            dayHistory.remove(0);
         }
         dayHistory.add(currentDay);
         saveDayHistoryToMemory ();
