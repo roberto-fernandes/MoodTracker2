@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
-            startAlarmManager ();
 
             mGestureDetector = new GestureDetector(this, this   );
             findViewById(android.R.id.content).setOnTouchListener(this);
@@ -100,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 startActivity(intent);
             }
         });
-
+            startAlarmManager ();
         }
 
         //region detection sliding up and down
@@ -198,11 +197,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         midnight.set(Calendar.SECOND, 0);
         midnight.add(Calendar.DATE, 1);    //tomorrow
 
+        Calendar test = Calendar.getInstance(); //gets right now
+        midnight.add(Calendar.SECOND, 3);    //tomorrow
+
+
         AlarmManager alarmManager =(AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getApplicationContext(), AlarmManagerReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent,0 );
-
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, midnight.getTimeInMillis() ,AlarmManager.INTERVAL_DAY, pendingIntent);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, intent,0 );
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, test.getTimeInMillis() ,5000, pendingIntent);
+     //   alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, midnight.getTimeInMillis() ,AlarmManager.INTERVAL_DAY, pendingIntent);
 
     }
 
