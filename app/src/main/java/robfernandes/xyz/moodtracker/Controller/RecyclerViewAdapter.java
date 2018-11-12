@@ -101,21 +101,42 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
         //set the background color
         viewHolder.rowCardView.setBackgroundColor(mContext.getResources().getColor(day.getMoodType().getBackgroundColor()));
-        // set the width
+        // set the width and height
         viewHolder.rowCardView.getLayoutParams().width=getItemWidth(day.getMoodType().getWidthPercentage());
+        viewHolder.rowCardView.getLayoutParams().height=getItemHeight();
     }
 
     private int getItemWidth (int percentage) {
         int width;
+        Point size = getScreenSize ();
+        width = size.x*percentage/100;
+        return width;
+    }
 
+    private int getItemHeight () {
+        int height;
+        Point size = getScreenSize ();
+        //the recyclerView height is the full height minus the status bar height and then for each item it is divided for the number of items
+        height = (size.y-geStatusBarHeight()) /mDayList.size();
+        return height;
+    }
+
+    private Point getScreenSize () {
         WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        width = size.x*percentage/100;
 
-        return width;
+        return size;
     }
 
+    private int geStatusBarHeight() {
+        int statusBarHeight = 0;
+        int resourceId = mContext.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = mContext.getResources().getDimensionPixelSize(resourceId);
+        }
+        return statusBarHeight;
+    }
 
 }
