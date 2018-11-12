@@ -64,7 +64,7 @@ public class MoodHistory {
 
         //if there is data loads data from memory
         if (json!=null) {
-            Type type = new TypeToken<ArrayList<Day>>() {}.getType();
+           Type type = new TypeToken<ArrayList<Day>>() {}.getType();
             dayHistory = gson.fromJson(json, type);
         } else { //if the data is empty generates dumb data
             dayHistory = generateDumbData();

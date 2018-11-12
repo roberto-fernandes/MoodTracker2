@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import robfernandes.xyz.moodtracker.Model.Day;
+import robfernandes.xyz.moodtracker.Model.MoodHistory;
 import robfernandes.xyz.moodtracker.R;
 
 /**
@@ -117,7 +118,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         int height;
         Point size = getScreenSize ();
         //the recyclerView height is the full height minus the status bar height and then for each item it is divided for the number of items
-        height = (size.y-geStatusBarHeight()) /mDayList.size();
+        height = (size.y-geStatusBarHeight()) /MoodHistory.sMAX_NUM_OF_DAYS;
         return height;
     }
 
