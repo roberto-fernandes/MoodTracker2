@@ -32,6 +32,7 @@ public class MoodHistory {
     public MoodHistory(Context context) {
         this.context=context;
         sharedPreferences= context.getSharedPreferences("Data", Context.MODE_PRIVATE);
+        dayHistory=loadDayHistoryFromMemory();
     }
 
     public static List<MoodType> getsMOOD_TYPES() {

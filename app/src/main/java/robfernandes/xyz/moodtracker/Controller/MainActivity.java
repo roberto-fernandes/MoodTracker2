@@ -48,10 +48,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             mGestureDetector = new GestureDetector(this, this   );
             findViewById(android.R.id.content).setOnTouchListener(this);
             mMoodHistory = new MoodHistory(this);
-            mMoodTypes = MoodHistory.getsMOOD_TYPES();
-            mLastDay = mMoodHistory.loadCurrentDay();
-            mCurrentMoodTypeID =mLastDay.getMoodType().getMoodTypeID();
-            mNote = mLastDay.getNote();
             mMediaPlayer= new MediaPlayer();
 
             addNoteImage = findViewById(R.id.activity_main_note_image);
@@ -59,7 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             background  = findViewById(R.id.activity_main_background);
             faceImage = findViewById(R.id.activity_main_face_image);
 
-            setUI();
+            mMoodTypes = MoodHistory.getsMOOD_TYPES();
+            setCurrentMood ();
 
             mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.happy);
             //show alert dialog
@@ -102,7 +99,19 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             startAlarmManager ();
         }
 
-        //region detection sliding up and down
+    @Override
+    protected void onPause() {
+        saveCurrentDay ();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setCurrentMood ();
+    }
+
+    //region detection sliding up and down
         @Override
         public boolean onTouch(View v, MotionEvent event) {
 
@@ -174,6 +183,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             playSoundWhenHappy();
         }
 
+        private void setCurrentMood () {
+            mLastDay = mMoodHistory.loadCurrentDay();
+            mCurrentMoodTypeID =mLastDay.getMoodType().getMoodTypeID();
+            mNote = mLastDay.getNote();
+            setUI();
+        }
+
 
         private void setUI() {
             MoodType moodType = mMoodTypes.get(mCurrentMoodTypeID);
@@ -201,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         AlarmManager alarmManager =(AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getApplicationContext(), AlarmManagerReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent,0 );
-        // alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() +500,5000, pendingIntent); //just for test
+       // alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() +500,5000, pendingIntent); //just for test
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, midnight.getTimeInMillis() ,AlarmManager.INTERVAL_DAY, pendingIntent);
 
     }
