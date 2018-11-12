@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Controller.MoodHistoryActivity"></activity>
+        <receiver android:name=".Controller.AlarmManagerReceiver"></receiver>
     </application>
 
 </manifest>

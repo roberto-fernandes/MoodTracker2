@@ -197,15 +197,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         midnight.set(Calendar.SECOND, 0);
         midnight.add(Calendar.DATE, 1);    //tomorrow
 
-        Calendar test = Calendar.getInstance(); //gets right now
-        midnight.add(Calendar.SECOND, 3);    //tomorrow
-
 
         AlarmManager alarmManager =(AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getApplicationContext(), AlarmManagerReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, intent,0 );
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, test.getTimeInMillis() ,5000, pendingIntent);
-     //   alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, midnight.getTimeInMillis() ,AlarmManager.INTERVAL_DAY, pendingIntent);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent,0 );
+        // alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() +500,5000, pendingIntent); //just for test
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, midnight.getTimeInMillis() ,AlarmManager.INTERVAL_DAY, pendingIntent);
 
     }
 
