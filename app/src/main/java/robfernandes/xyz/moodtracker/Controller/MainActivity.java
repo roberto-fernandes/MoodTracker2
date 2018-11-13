@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             background  = findViewById(R.id.activity_main_background);
             faceImage = findViewById(R.id.activity_main_face_image);
 
-            mMoodTypes = MoodHistory.getsMOOD_TYPES();
+            mMoodTypes = MoodHistory.getMoodTypes();
             setCurrentMood ();
 
             mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.happy);

@@ -118,7 +118,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         int height;
         Point size = getScreenSize ();
         //the recyclerView height is the full height minus the status bar height and then for each item it is divided for the number of items
-        height = (size.y-geStatusBarHeight()) /MoodHistory.sMAX_NUM_OF_DAYS;
+        height = (size.y-geStatusBarHeight()) /MoodHistory.MAX_NUM_OF_DAYS;
         return height;
     }
 
