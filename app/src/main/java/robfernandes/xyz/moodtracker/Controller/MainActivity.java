@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         private ImageView faceImage;
         private View background;
 
+        private static final String TAG = MainActivity.class.getSimpleName();
         private MediaPlayer mMediaPlayer;
         private GestureDetector mGestureDetector;
         private List<MoodType> mMoodTypes;
@@ -204,7 +205,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 mMediaPlayer.start();
             }
         }
-
 
     private void startAlarmManager () {
         Calendar midnight = Calendar.getInstance(); //gets right now
