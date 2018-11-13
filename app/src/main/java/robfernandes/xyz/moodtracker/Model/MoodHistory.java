@@ -60,6 +60,7 @@ public class MoodHistory {
     }
 
     public List<Day> loadDayHistoryFromMemory() {
+        //using gson
         Gson gson = new Gson();
         String json = sharedPreferences.getString("DayHistory", null);
 
