@@ -142,7 +142,7 @@ public class MoodHistory {
         editor.apply();
     }
 
-
+/*//just for test
     private List<Day> generateDumbData () {
         List<Day> dayList = new ArrayList<>();
 
@@ -154,5 +154,5 @@ public class MoodHistory {
         dayList.add(new Day(MOOD_TYPES.get(2), "Some other note"));
         dayList.add(new Day(MOOD_TYPES.get(0)));
         return dayList;
-    }
+    }*/
 }
