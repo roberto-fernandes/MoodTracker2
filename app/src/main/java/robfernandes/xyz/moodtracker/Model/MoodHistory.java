@@ -29,6 +29,9 @@ public class MoodHistory {
     private List<Day> dayHistory = new ArrayList<>();
     private SharedPreferences sharedPreferences;
 
+    public MoodHistory() {
+    }
+
     public MoodHistory(Context context) {
         this.context=context;
         sharedPreferences= context.getSharedPreferences("Data", Context.MODE_PRIVATE);
@@ -111,7 +114,7 @@ public class MoodHistory {
         return day;
     }
 
-    private MoodType getMoodTypeFromID (int id) {
+    public MoodType getMoodTypeFromID (int id) {
         for (MoodType moodType: MOOD_TYPES) {
             if (moodType.getMoodTypeID()==id) {
                 return moodType;
