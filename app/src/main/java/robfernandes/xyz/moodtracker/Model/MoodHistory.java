@@ -19,7 +19,7 @@ public class MoodHistory {
         add(new MoodType(85, R.color.light_sage, R.drawable.smiley_happy, 3));
         add(new MoodType(100, R.color.banana_yellow, R.drawable.smiley_super_happy, 4));
     }};
-    private static final Day DEFAULT_DAY = new Day(MOOD_TYPES.get(4));
+    public static final Day DEFAULT_DAY = new Day(MOOD_TYPES.get(4));
     public static final int MAX_NUM_OF_DAYS =7;
     private static final String MOOD_STRING_KEY = "Mood";
     private static final String NOTE_STRING_KEY = "Note";

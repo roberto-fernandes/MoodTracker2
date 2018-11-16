@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 public class ModelTest {
 
     @Test
-    public void moodTypeID() {
+    public void creatingMoodType_enterID_ReturnMoodTypeID() {
         int moodTypeID=3;
         MoodType moodType = new MoodType(0, 0,0,moodTypeID);
 
@@ -23,7 +23,7 @@ public class ModelTest {
     }
 
     @Test
-    public void numberOfMoodTypes() {
+    public void moodHistory_numberOfMoodTypes_Returned5() {
         int expectedNumberOfMoodTypes =5;
         int actualNumberOfMoodTypes =MoodHistory.getMoodTypes().size();
 
@@ -31,7 +31,7 @@ public class ModelTest {
     }
 
     @Test
-    public void getMoodTypeFromID() {
+    public void getMoodTypeFromID_validID_getMoodType() {
         MoodHistory moodHistory = new MoodHistory();
         int id;
 
@@ -43,4 +43,14 @@ public class ModelTest {
         assertEquals(id, moodHistory.getMoodTypeFromID(id).getMoodTypeID());
     }
 
+    @Test
+    public void getMoodTypeFromID_invalidID_getDefaultType() {
+        MoodHistory moodHistory = new MoodHistory();
+        int id;
+        int defaultMoodTypeID = moodHistory.DEFAULT_DAY.getMoodType().getMoodTypeID();
+
+        id=-1;
+
+        assertEquals(defaultMoodTypeID, moodHistory.getMoodTypeFromID(id).getMoodTypeID());
+    }
 }
