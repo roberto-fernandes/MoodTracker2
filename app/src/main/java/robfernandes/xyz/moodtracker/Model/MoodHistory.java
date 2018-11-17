@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import robfernandes.xyz.moodtracker.Utils.Constants;
+import robfernandes.xyz.moodtracker.Utils.MoodType;
 
 /**
  * Created by Roberto Fernandes on 07/11/2018.

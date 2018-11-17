@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import robfernandes.xyz.moodtracker.Model.Day;
-import robfernandes.xyz.moodtracker.Model.MoodType;
 import robfernandes.xyz.moodtracker.R;
 
 /**

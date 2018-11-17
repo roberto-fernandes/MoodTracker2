@@ -3,7 +3,7 @@ package robfernandes.xyz.moodtracker;
 import org.junit.Test;
 
 import robfernandes.xyz.moodtracker.Model.MoodHistory;
-import robfernandes.xyz.moodtracker.Model.MoodType;
+import robfernandes.xyz.moodtracker.Utils.MoodType;
 
 import static org.junit.Assert.assertEquals;
 

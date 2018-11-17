@@ -1,5 +1,7 @@
 package robfernandes.xyz.moodtracker.Model;
 
+import robfernandes.xyz.moodtracker.Utils.MoodType;
+
 /**
  * Created by Roberto Fernandes on 07/11/2018.
  */

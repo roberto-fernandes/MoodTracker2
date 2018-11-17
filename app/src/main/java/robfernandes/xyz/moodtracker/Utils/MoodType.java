@@ -1,4 +1,4 @@
-package robfernandes.xyz.moodtracker.Model;
+package robfernandes.xyz.moodtracker.Utils;
 
 /**
  * Created by Roberto Fernandes on 07/11/2018.
