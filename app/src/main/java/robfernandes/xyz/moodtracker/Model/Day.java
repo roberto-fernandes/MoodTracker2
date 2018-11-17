@@ -36,5 +36,4 @@ public class Day {
     public void setNote(String note) {
         this.note = note;
     }
-
 }

@@ -16,8 +16,8 @@ import android.widget.Toast;
 import java.util.List;
 
 import robfernandes.xyz.moodtracker.Model.Day;
-import robfernandes.xyz.moodtracker.Model.MoodHistory;
 import robfernandes.xyz.moodtracker.R;
+import robfernandes.xyz.moodtracker.Utils.Constants;
 
 /**
  * Created by Roberto Fernandes on 07/11/2018.
@@ -72,25 +72,33 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Day day = mDayList.get(i);
-        int numberOfDaysAgo= mDayList.size()-i;
+        int numberOfDaysAgo = mDayList.size() - i;
         String text;
 
         switch (numberOfDaysAgo) {
-            case 7: text = mContext.getString(R.string.OneWeekAgo);
-                    break;
-            case 6: text = mContext.getString(R.string.SixDaysAgo);
+            case 7:
+                text = mContext.getString(R.string.OneWeekAgo);
                 break;
-            case 5: text = mContext.getString(R.string.FiveDaysAgo);
+            case 6:
+                text = mContext.getString(R.string.SixDaysAgo);
                 break;
-            case 4: text = mContext.getString(R.string.FourDaysAgo);
+            case 5:
+                text = mContext.getString(R.string.FiveDaysAgo);
                 break;
-            case 3: text = mContext.getString(R.string.ThreeDaysAgo);
+            case 4:
+                text = mContext.getString(R.string.FourDaysAgo);
                 break;
-            case 2: text = mContext.getString(R.string.TwoDaysAgo);
+            case 3:
+                text = mContext.getString(R.string.ThreeDaysAgo);
                 break;
-            case 1: text = mContext.getString(R.string.Yesterday);
+            case 2:
+                text = mContext.getString(R.string.TwoDaysAgo);
                 break;
-            default: text = mContext.getString(R.string.OneWeekAgo);
+            case 1:
+                text = mContext.getString(R.string.Yesterday);
+                break;
+            default:
+                text = mContext.getString(R.string.OneWeekAgo);
                 break;
         }
 
@@ -103,26 +111,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         //set the background color
         viewHolder.rowCardView.setBackgroundColor(mContext.getResources().getColor(day.getMoodType().getBackgroundColor()));
         // set the width and height
-        viewHolder.rowCardView.getLayoutParams().width=getItemWidth(day.getMoodType().getWidthPercentage());
-        viewHolder.rowCardView.getLayoutParams().height=getItemHeight();
+        viewHolder.rowCardView.getLayoutParams().width = getItemWidth(day.getMoodType().getWidthPercentage());
+        viewHolder.rowCardView.getLayoutParams().height = getItemHeight();
     }
 
-    private int getItemWidth (int percentage) {
+    private int getItemWidth(int percentage) {
         int width;
-        Point size = getScreenSize ();
-        width = size.x*percentage/100;
+        Point size = getScreenSize();
+        width = size.x * percentage / 100;
         return width;
     }
 
-    private int getItemHeight () {
+    private int getItemHeight() {
         int height;
-        Point size = getScreenSize ();
+        Point size = getScreenSize();
         //the recyclerView height is the full height minus the status bar height and then for each item it is divided for the number of items
-        height = (size.y-geStatusBarHeight()) /MoodHistory.MAX_NUM_OF_DAYS;
+        height = (size.y - geStatusBarHeight()) / Constants.MAX_NUM_OF_DAYS;
         return height;
     }
 
-    private Point getScreenSize () {
+    private Point getScreenSize() {
         WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
