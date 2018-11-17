@@ -81,8 +81,7 @@ public class MoodHistory {
         String note;
         String key = Constants.MOOD_STRING_KEY + index;
 
-        moodTypeID = sharedPreferences.getInt(key, -1);
-
+        moodTypeID = Integer.valueOf(sharedPreferences.getString(key, "-1"));
         if (moodTypeID == -1) {
             return null;
         }
@@ -113,15 +112,18 @@ public class MoodHistory {
 
     private void saveMoodToMemory(int index, int moodID) {
         String key = Constants.MOOD_STRING_KEY + index;
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(key, moodID);
-        editor.apply();
+        String moodIDString = Integer.toString(moodID);
+        saveDataInMemory(key, moodIDString);
     }
 
     private void saveNoteToMemory(int index, String note) {
         String key = Constants.NOTE_STRING_KEY + index;
-        SharedPreferences.Editor editor = sharedPreferences.edit();//colocar global savetosharedpreferences metodo
-        editor.putString(key, note);
+        saveDataInMemory(key, note);
+    }
+
+    private void saveDataInMemory(String key, String value) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, value);
         editor.apply();
     }
 
