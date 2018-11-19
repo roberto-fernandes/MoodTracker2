@@ -184,6 +184,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     private void setCurrentMood() {
         mCurrentMood = mMoodHistory.loadCurrentMood();
+        if (mCurrentMood.getMoodID()==Constants.EMPTY_MOOD.getMoodID()) {
+            mCurrentMood=Constants.DEFAULT_MOOD;
+        }
         mCurrentMoodTypeID = mCurrentMood.getMoodID();
         mNote = mCurrentMood.getNote();
         setUI();
@@ -252,8 +255,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getApplicationContext(), AlarmManagerReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() +500,5000, pendingIntent); //just for test
-        //alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, midnight.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() +500,5000, pendingIntent); //just for test
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, midnight.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
     }
 

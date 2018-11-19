@@ -16,6 +16,13 @@ public class MoodType {
         this.moodTypeID = moodTypeID;
     }
 
+    public MoodType(int moodTypeID, int widthPercentage, int backgroundColor) {
+        this.moodTypeID = moodTypeID;
+        this.widthPercentage = widthPercentage;
+        this.backgroundColor = backgroundColor;
+        faceImage=-1;
+    }
+
     public int getWidthPercentage() {
         return widthPercentage;
     }

@@ -10,7 +10,7 @@
         android:id="@+id/mood_history_row_cardiView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="@color/BackgroundHistoryMood"
+        app:cardBackgroundColor="@color/backgroundHistoryMood"
         tools:layout_editor_absoluteX="384dp">
 
         <android.support.constraint.ConstraintLayout

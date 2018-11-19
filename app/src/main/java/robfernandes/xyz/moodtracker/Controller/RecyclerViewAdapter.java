@@ -103,6 +103,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 text = mContext.getString(R.string.OneWeekAgo);
                 break;
         }
+        MoodType moodType = MoodHistory.getMoodTypeFromID(mood.getMoodID());
+        if (moodType.getMoodTypeID()==Constants.EMPTY_MOOD_TYPE.getMoodTypeID()) {
+            text += ", no entry on this day";
+        }
 
         viewHolder.title.setText(text);
         if (mood.hasNote()) {
@@ -111,7 +115,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             viewHolder.noteImage.setVisibility(View.INVISIBLE);
         }
         //set the background color
-        MoodType moodType = MoodHistory.getMoodTypeFromID(mood.getMoodID());
+
         int backgroundColor = moodType.getBackgroundColor();
         viewHolder.rowCardView.setBackgroundColor(mContext.getResources().getColor(backgroundColor));
 

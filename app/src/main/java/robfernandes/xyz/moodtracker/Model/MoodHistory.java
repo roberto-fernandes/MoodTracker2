@@ -23,7 +23,8 @@ public class MoodHistory {
 
     public MoodHistory(Context context) {
         this.context = context;
-        sharedPreferences = context.getSharedPreferences("Data", Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("MoodHistory", Context.MODE_PRIVATE);
+     //   setDumbData (); //Just for test
         moodHistory = loadHistoryFromMemory();
     }
 
@@ -34,7 +35,7 @@ public class MoodHistory {
         }
         moodHistory.add(currentMood);
         saveHistoryToMemory();
-        saveCurrentMood(Constants.DEFAULT_MOOD);
+        saveCurrentMood(Constants.EMPTY_MOOD);
     }
 
     private void saveHistoryToMemory() {
@@ -93,6 +94,9 @@ public class MoodHistory {
     }
 
     public static MoodType getMoodTypeFromID(int id) {
+        if (id==Constants.EMPTY_MOOD.getMoodID()) {
+            return Constants.EMPTY_MOOD_TYPE;
+        }
         for (MoodType moodType : Constants.MOOD_TYPES) {
             if (moodType.getMoodTypeID() == id) {
                 return moodType;
@@ -111,17 +115,31 @@ public class MoodHistory {
     private void saveMoodIDToMemory(int index, int moodID) {
         String key = Constants.MOOD_STRING_KEY + index;
         String moodIDString = Integer.toString(moodID);
-        saveDataInMemory(key, moodIDString);
+        saveDataToMemory(key, moodIDString);
     }
 
     private void saveNoteToMemory(int index, String note) {
         String key = Constants.NOTE_STRING_KEY + index;
-        saveDataInMemory(key, note);
+        saveDataToMemory(key, note);
     }
 
-    private void saveDataInMemory(String key, String value) {
+    private void saveDataToMemory(String key, String value) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, value);
         editor.apply();
     }
+
+/*    private void setDumbData () { //Just for test
+        List<Mood> moodList = new ArrayList<>();
+        moodList.add(new Mood(0, ""));
+        moodList.add(new Mood(2, "s"));
+        moodList.add(new Mood(1, ""));
+        moodList.add(new Mood(3, ""));
+        moodList.add(Constants.EMPTY_MOOD);
+        moodList.add(new Mood(0, ""));
+
+        for (int i = 0; i < moodList.size(); i++) {
+            saveMoodToMemory(moodList.get(i), i);
+        }
+    }*/
 }
