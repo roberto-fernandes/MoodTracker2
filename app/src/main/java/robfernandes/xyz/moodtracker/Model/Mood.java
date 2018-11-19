@@ -22,6 +22,9 @@ public class Mood {
     }
 
     public boolean hasNote() {
+        if (!note.equals("")) {
+            return true;
+        }
         return false;
     }
 }
