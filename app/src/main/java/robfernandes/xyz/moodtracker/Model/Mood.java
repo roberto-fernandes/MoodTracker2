@@ -7,12 +7,6 @@ public class Mood {
     private int moodID;
     private String note;
 
-
-    public Mood(int moodID) {
-        this.moodID = moodID;
-        this.note="";
-    }
-
     public Mood(int moodID, String note) {
         this.moodID = moodID;
         this.note = note;
