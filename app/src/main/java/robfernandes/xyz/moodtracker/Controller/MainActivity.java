@@ -17,11 +17,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.util.Calendar;
-import java.util.List;
 
 import robfernandes.xyz.moodtracker.Model.Mood;
 import robfernandes.xyz.moodtracker.Model.MoodHistory;
 import robfernandes.xyz.moodtracker.R;
+import robfernandes.xyz.moodtracker.Utils.Constants;
 import robfernandes.xyz.moodtracker.Utils.MoodType;
 
 
@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private static final String TAG = MainActivity.class.getSimpleName();
     private MediaPlayer mMediaPlayer;
     private GestureDetector mGestureDetector;
-    private List<MoodType> mMoodTypes;
     private Mood mCurrentMood;
     private int mCurrentMoodTypeID;
     private MoodHistory mMoodHistory;
@@ -56,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         background = findViewById(R.id.activity_main_background);
         faceImage = findViewById(R.id.activity_main_face_image);
 
-        mMoodTypes = MoodHistory.getMoodTypes();
         setCurrentMood();
 
         mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.happy);
@@ -158,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     //endregion
 
     private void nextMood() {
-        int lastItem = mMoodTypes.size() - 1;
+        int lastItem = Constants.MOOD_TYPES.size() - 1;
         if (mCurrentMoodTypeID >= lastItem) {
             mCurrentMoodTypeID = 0;
         } else {
@@ -169,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     private void previousMood() {
-        int lastItem = mMoodTypes.size() - 1;
+        int lastItem = Constants.MOOD_TYPES.size() - 1;
         if (mCurrentMoodTypeID <= 0) {
             mCurrentMoodTypeID = lastItem;
         } else {

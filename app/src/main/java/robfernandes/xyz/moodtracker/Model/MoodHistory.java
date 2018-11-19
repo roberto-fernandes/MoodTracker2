@@ -27,10 +27,6 @@ public class MoodHistory {
         moodHistory = loadHistoryFromMemory();
     }
 
-    public static List<MoodType> getMoodTypes() {
-        return Constants.MOOD_TYPES;
-    }
-
     public void updateDays() {
         Mood currentMood = loadCurrentMood();
         if (moodHistory.size() >= Constants.MAX_NUM_OF_DAYS) {
