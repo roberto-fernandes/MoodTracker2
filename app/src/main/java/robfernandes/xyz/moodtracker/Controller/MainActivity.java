@@ -33,7 +33,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private View background;
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private MediaPlayer mMediaPlayer;
+    private MediaPlayer mSuperHappyMediaPlayer;
+    private MediaPlayer mHappyMediaPlayer;
+    private MediaPlayer mNormalMediaPlayer;
+    private MediaPlayer mDisappointedMediaPlayer;
+    private MediaPlayer mSadMediaPlayer;
     private GestureDetector mGestureDetector;
     private Mood mCurrentMood;
     private int mCurrentMoodTypeID;
@@ -48,16 +52,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         mGestureDetector = new GestureDetector(this, this);
         findViewById(android.R.id.content).setOnTouchListener(this);
         mMoodHistory = new MoodHistory(this);
-        mMediaPlayer = new MediaPlayer();
 
         addNoteImage = findViewById(R.id.activity_main_note_image);
         moodHistoryImage = findViewById(R.id.activity_main_history_image);
         background = findViewById(R.id.activity_main_background);
         faceImage = findViewById(R.id.activity_main_face_image);
 
+        startMediaPlayers();
         setCurrentMood();
 
-        mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.happy);
         //show alert dialog
         addNoteImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +116,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     //region detection sliding up and down
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-
         mGestureDetector.onTouchEvent(event);
         return true;
     }
@@ -146,9 +148,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         double mDistance = e1.getY() - e2.getY();
-        if (mDistance > 100) {
+        if (mDistance > 50) {
             nextMood();
-        } else if (mDistance < -100) {
+        } else if (mDistance < -50) {
             previousMood();
         }
         return true;
@@ -163,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             mCurrentMoodTypeID++;
         }
         setUI();
-        playSoundWhenHappy();
+        playSound();
     }
 
     private void previousMood() {
@@ -174,10 +176,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             mCurrentMoodTypeID--;
         }
         if (mCurrentMoodTypeID == 4) {
-            mMediaPlayer.start();
+            mSuperHappyMediaPlayer.start();
         }
         setUI();
-        playSoundWhenHappy();
+        playSound();
     }
 
     private void setCurrentMood() {
@@ -187,18 +189,55 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         setUI();
     }
 
-
     private void setUI() {
         MoodType moodType = mMoodHistory.getMoodTypeFromID(mCurrentMoodTypeID);
-
         background.setBackgroundColor(getResources().getColor(moodType.getBackgroundColor()));
         faceImage.setImageResource(moodType.getFaceImage());
 
     }
 
-    private void playSoundWhenHappy() {
-        if (mCurrentMoodTypeID == 4) {
-            mMediaPlayer.start();
+    private void startMediaPlayers() {
+        mSuperHappyMediaPlayer = new MediaPlayer();
+        mHappyMediaPlayer = new MediaPlayer();
+        mNormalMediaPlayer = new MediaPlayer();
+        mSadMediaPlayer = new MediaPlayer();
+        mDisappointedMediaPlayer = new MediaPlayer();
+
+        mSuperHappyMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.super_happy);
+        mHappyMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.happy);
+        mNormalMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.normal);
+        mDisappointedMediaPlayer= MediaPlayer.create(getApplicationContext(), R.raw.disappointed);
+        mSadMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sad);
+    }
+
+    private void playSound() {
+        pauseAllMediaPlayers();
+        switch (mCurrentMoodTypeID) {
+            case 0: mDisappointedMediaPlayer.start();
+                break;
+            case 1: mSadMediaPlayer.start();
+                break;
+            case 2: mNormalMediaPlayer.start();
+                break;
+            case 3: mHappyMediaPlayer.start();
+                break;
+            case 4: mSuperHappyMediaPlayer.start();
+                break;
+        }
+    }
+
+    private void pauseAllMediaPlayers() {
+        pauseMediaPlayer(mSuperHappyMediaPlayer);
+        pauseMediaPlayer(mHappyMediaPlayer);
+        pauseMediaPlayer(mNormalMediaPlayer );
+        pauseMediaPlayer(mSadMediaPlayer);
+        pauseMediaPlayer(mDisappointedMediaPlayer);
+    }
+
+    private void pauseMediaPlayer(MediaPlayer mediaPlayer) {
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+            mediaPlayer.seekTo(0);
         }
     }
 
@@ -224,19 +263,27 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
 
-    private void realiseMediaPlayer() {
-        if (mMediaPlayer != null) {
-            if (mMediaPlayer.isPlaying()) {
-                mMediaPlayer.stop();
+    private void realiseAllMediaPlayers() {
+        realiseMediaPlayer(mSuperHappyMediaPlayer);
+        realiseMediaPlayer(mHappyMediaPlayer);
+        realiseMediaPlayer(mNormalMediaPlayer );
+        realiseMediaPlayer(mSadMediaPlayer);
+        realiseMediaPlayer(mDisappointedMediaPlayer);
+    }
+
+    private void realiseMediaPlayer(MediaPlayer mediaPlayer) {
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
             }
-            mMediaPlayer.release();
+            mediaPlayer.release();
         }
     }
 
     @Override
     protected void onDestroy() {
         saveCurrentMood();
-        realiseMediaPlayer();
+        realiseAllMediaPlayers();
         super.onDestroy();
     }
 }
