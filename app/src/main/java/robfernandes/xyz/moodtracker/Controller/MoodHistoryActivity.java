@@ -7,14 +7,14 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.List;
 
-import robfernandes.xyz.moodtracker.Model.Day;
+import robfernandes.xyz.moodtracker.Model.Mood;
 import robfernandes.xyz.moodtracker.Model.MoodHistory;
 import robfernandes.xyz.moodtracker.R;
 
 public class MoodHistoryActivity extends AppCompatActivity {
 
     private MoodHistory mMoodHistory;
-    private List<Day> mListOfDays;
+    private List<Mood> mMoodList;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
 
@@ -24,13 +24,13 @@ public class MoodHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mood_history);
 
         mMoodHistory = new MoodHistory(this);
-        mListOfDays = mMoodHistory.loadHistoryFromMemory();
+        mMoodList = mMoodHistory.loadHistoryFromMemory();
 
         recyclerView = findViewById(R.id.activity_mood_recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        recyclerViewAdapter = new RecyclerViewAdapter(this, mListOfDays);
+        recyclerViewAdapter = new RecyclerViewAdapter(this, mMoodList);
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 }

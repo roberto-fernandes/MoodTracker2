@@ -3,7 +3,7 @@ package robfernandes.xyz.moodtracker.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import robfernandes.xyz.moodtracker.Model.Day;
+import robfernandes.xyz.moodtracker.Model.Mood;
 import robfernandes.xyz.moodtracker.R;
 
 /**
@@ -17,7 +17,8 @@ public final class Constants {
         add(new MoodType(85, R.color.light_sage, R.drawable.smiley_happy, 3));
         add(new MoodType(100, R.color.banana_yellow, R.drawable.smiley_super_happy, 4));
     }};
-    public static final Day DEFAULT_DAY = new Day(MOOD_TYPES.get(4));
+    public static final MoodType DEFAULT_MOOD_TYPE = MOOD_TYPES.get(4);
+    public static final Mood DEFAULT_MOOD = new Mood(DEFAULT_MOOD_TYPE.getMoodTypeID(), "");
     public static final int MAX_NUM_OF_DAYS = 7;
     public static final String MOOD_STRING_KEY = "Mood";
     public static final String NOTE_STRING_KEY = "Note";

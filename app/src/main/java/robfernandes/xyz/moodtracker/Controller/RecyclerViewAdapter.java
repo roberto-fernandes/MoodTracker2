@@ -15,20 +15,22 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import robfernandes.xyz.moodtracker.Model.Day;
+import robfernandes.xyz.moodtracker.Model.Mood;
+import robfernandes.xyz.moodtracker.Model.MoodHistory;
 import robfernandes.xyz.moodtracker.R;
 import robfernandes.xyz.moodtracker.Utils.Constants;
+import robfernandes.xyz.moodtracker.Utils.MoodType;
 
 /**
  * Created by Roberto Fernandes on 07/11/2018.
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private Context mContext;
-    private List<Day> mDayList;
+    private List<Mood> mMoodList;
 
-    public RecyclerViewAdapter(Context context, List<Day> listMoods) {
+    public RecyclerViewAdapter(Context context, List<Mood> moodList) {
         mContext = context;
-        mDayList = listMoods;
+        mMoodList = moodList;
     }
 
     @NonNull
@@ -40,7 +42,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return mDayList.size();
+        return mMoodList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -62,17 +64,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public void onClick(View v) {
             int position = getAdapterPosition();
 
-            Day day = mDayList.get(position);
-            if (day.hasNote()) {
-                Toast.makeText(mContext, day.getNote(), Toast.LENGTH_SHORT).show();
+            Mood mood = mMoodList.get(position);
+            if (mood.hasNote()) {
+                Toast.makeText(mContext, mood.getNote(), Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        Day day = mDayList.get(i);
-        int numberOfDaysAgo = mDayList.size() - i;
+        Mood mood = mMoodList.get(i);
+        int numberOfDaysAgo = mMoodList.size() - i;
         String text;
 
         switch (numberOfDaysAgo) {
@@ -103,15 +105,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
 
         viewHolder.title.setText(text);
-        if (day.hasNote()) {
+        if (mood.hasNote()) {
             viewHolder.noteImage.setVisibility(View.VISIBLE);
         } else {
             viewHolder.noteImage.setVisibility(View.INVISIBLE);
         }
         //set the background color
-        viewHolder.rowCardView.setBackgroundColor(mContext.getResources().getColor(day.getMoodType().getBackgroundColor()));
+        MoodType moodType = MoodHistory.getMoodTypeFromID(mood.getMoodID());
+        int backgroundColor = moodType.getBackgroundColor();
+        viewHolder.rowCardView.setBackgroundColor(mContext.getResources().getColor(backgroundColor));
+
         // set the width and height
-        viewHolder.rowCardView.getLayoutParams().width = getItemWidth(day.getMoodType().getWidthPercentage());
+        int width = moodType.getWidthPercentage();
+        viewHolder.rowCardView.getLayoutParams().width = getItemWidth(width);
         viewHolder.rowCardView.getLayoutParams().height = getItemHeight();
     }
 

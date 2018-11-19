@@ -5,18 +5,29 @@ package robfernandes.xyz.moodtracker.Model;
  */
 public class Mood {
     private int moodID;
-    private String Note;
+    private String note;
+
+
+    public Mood(int moodID) {
+        this.moodID = moodID;
+        this.note="";
+    }
 
     public Mood(int moodID, String note) {
         this.moodID = moodID;
-        Note = note;
+        this.note = note;
     }
+
 
     public int getMoodID() {
         return moodID;
     }
 
     public String getNote() {
-        return Note;
+        return note;
+    }
+
+    public boolean hasNote() {
+        return false;
     }
 }

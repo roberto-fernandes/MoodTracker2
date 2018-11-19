@@ -15,7 +15,7 @@ import robfernandes.xyz.moodtracker.Utils.MoodType;
 public class MoodHistory {
 
     private Context context;
-    private List<Day> dayHistory = new ArrayList<>();
+    private List<Mood> moodHistory = new ArrayList<>();
     private SharedPreferences sharedPreferences;
 
     public MoodHistory() {
@@ -24,7 +24,7 @@ public class MoodHistory {
     public MoodHistory(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences("Data", Context.MODE_PRIVATE);
-        dayHistory = loadHistoryFromMemory();
+        moodHistory = loadHistoryFromMemory();
     }
 
     public static List<MoodType> getMoodTypes() {
@@ -32,52 +32,52 @@ public class MoodHistory {
     }
 
     public void updateDays() {
-        Day currentDay = loadCurrentDay();
-        if (dayHistory.size() >= Constants.MAX_NUM_OF_DAYS) {
-            dayHistory.remove(0);
+        Mood currentMood = loadCurrentMood();
+        if (moodHistory.size() >= Constants.MAX_NUM_OF_DAYS) {
+            moodHistory.remove(0);
         }
-        dayHistory.add(currentDay);
+        moodHistory.add(currentMood);
         saveHistoryToMemory();
-        saveCurrentDay(Constants.DEFAULT_DAY);
+        saveCurrentMood(Constants.DEFAULT_MOOD);
     }
 
     private void saveHistoryToMemory() {
-        for (int i = 0; i < dayHistory.size(); i++) {
-            saveDayToMemory(dayHistory.get(i), i);
+        for (int i = 0; i < moodHistory.size(); i++) {
+            saveMoodToMemory(moodHistory.get(i), i);
         }
     }
 
-    public List<Day> loadHistoryFromMemory() {
-        List<Day> listDays = new ArrayList<>();
-        Day day;
+    public List<Mood> loadHistoryFromMemory() {
+        List<Mood> moodList = new ArrayList<>();
+        Mood mood;
         for (int i = 0; i < Constants.MAX_NUM_OF_DAYS; i++) {
-            day = loadDayFromMemory(i);
-            if (day != null) {
-                listDays.add(day);
+            mood = loadMoodFromMemory(i);
+            if (mood != null) {
+                moodList.add(mood);
             }
         }
-        return listDays;
+        return moodList;
     }
 
-    public void saveCurrentDay(Day day) {
-        saveDayToMemory(day, Constants.CURRENT_DAY_INDEX);
+    public void saveCurrentMood(Mood mood) {
+        saveMoodToMemory(mood, Constants.CURRENT_DAY_INDEX);
     }
 
-    public Day loadCurrentDay() {
-        Day day = loadDayFromMemory(Constants.CURRENT_DAY_INDEX);
-        if (day == null) {
-            day = Constants.DEFAULT_DAY;
+    public Mood loadCurrentMood() {
+        Mood mood = loadMoodFromMemory(Constants.CURRENT_DAY_INDEX);
+        if (mood == null) {
+            mood = Constants.DEFAULT_MOOD ;
         }
-        return day;
+        return mood;
     }
 
-    private void saveDayToMemory(Day day, int index) {
-        saveMoodToMemory(index, day.getMoodType().getMoodTypeID());
-        saveNoteToMemory(index, day.getNote());
+    private void saveMoodToMemory(Mood mood, int index) {
+        saveMoodIDToMemory(index, mood.getMoodID());
+        saveNoteToMemory(index, mood.getNote());
     }
 
 
-    private Day loadDayFromMemory(int index) {
+    private Mood loadMoodFromMemory(int index) {
         int moodTypeID;
         String note;
         String key = Constants.MOOD_STRING_KEY + index;
@@ -87,21 +87,19 @@ public class MoodHistory {
             return null;
         }
 
-        MoodType moodType = getMoodTypeFromID(moodTypeID);
         note = getNoteFromMemory(index);
 
-        Day day = new Day(moodType, note);
-
-        return day;
+        Mood mood = new Mood(moodTypeID, note);
+        return mood;
     }
 
-    public MoodType getMoodTypeFromID(int id) {
+    public static MoodType getMoodTypeFromID(int id) {
         for (MoodType moodType : Constants.MOOD_TYPES) {
             if (moodType.getMoodTypeID() == id) {
                 return moodType;
             }
         }
-        return Constants.DEFAULT_DAY.getMoodType();
+        return Constants.DEFAULT_MOOD_TYPE;
     }
 
     private String getNoteFromMemory(int index) {
@@ -111,7 +109,7 @@ public class MoodHistory {
         return note;
     }
 
-    private void saveMoodToMemory(int index, int moodID) {
+    private void saveMoodIDToMemory(int index, int moodID) {
         String key = Constants.MOOD_STRING_KEY + index;
         String moodIDString = Integer.toString(moodID);
         saveDataInMemory(key, moodIDString);
@@ -127,18 +125,4 @@ public class MoodHistory {
         editor.putString(key, value);
         editor.apply();
     }
-
-/*//just for test
-    private List<Day> generateDumbData () {
-        List<Day> dayList = new ArrayList<>();
-
-        dayList.add(new Day(MOOD_TYPES.get(0), "Just some data example"));
-        dayList.add(new Day(MOOD_TYPES.get(1)));
-        dayList.add(new Day(MOOD_TYPES.get(2), "Another note"));
-        dayList.add(new Day(MOOD_TYPES.get(3)));
-        dayList.add(new Day(MOOD_TYPES.get(4)));
-        dayList.add(new Day(MOOD_TYPES.get(2), "Some other note"));
-        dayList.add(new Day(MOOD_TYPES.get(0)));
-        return dayList;
-    }*/
 }

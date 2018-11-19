@@ -19,10 +19,10 @@ import android.widget.ImageView;
 import java.util.Calendar;
 import java.util.List;
 
-import robfernandes.xyz.moodtracker.Model.Day;
+import robfernandes.xyz.moodtracker.Model.Mood;
 import robfernandes.xyz.moodtracker.Model.MoodHistory;
-import robfernandes.xyz.moodtracker.Utils.MoodType;
 import robfernandes.xyz.moodtracker.R;
+import robfernandes.xyz.moodtracker.Utils.MoodType;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener, GestureDetector.OnGestureListener {
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private MediaPlayer mMediaPlayer;
     private GestureDetector mGestureDetector;
     private List<MoodType> mMoodTypes;
-    private Day mLastDay;
+    private Mood mCurrentMood;
     private int mCurrentMoodTypeID;
     private MoodHistory mMoodHistory;
     private String mNote;
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 //If there is a note it shows
                 if (!alertDialogNote.getText().equals("")) {
                     alertDialogNote.setText(mNote);
-                    saveCurrentDay();
+                    saveCurrentMood();
                 }
                 // Inflate and set the layout for the dialog
                 builder.setView(mAlertDialogView)
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     @Override
     protected void onPause() {
-        saveCurrentDay();
+        saveCurrentMood();
         super.onPause();
     }
 
@@ -183,15 +183,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     private void setCurrentMood() {
-        mLastDay = mMoodHistory.loadCurrentDay();
-        mCurrentMoodTypeID = mLastDay.getMoodType().getMoodTypeID();
-        mNote = mLastDay.getNote();
+        mCurrentMood = mMoodHistory.loadCurrentMood();
+        mCurrentMoodTypeID = mCurrentMood.getMoodID();
+        mNote = mCurrentMood.getNote();
         setUI();
     }
 
 
     private void setUI() {
-        MoodType moodType = mMoodTypes.get(mCurrentMoodTypeID);
+        MoodType moodType = mMoodHistory.getMoodTypeFromID(mCurrentMoodTypeID);
 
         background.setBackgroundColor(getResources().getColor(moodType.getBackgroundColor()));
         faceImage.setImageResource(moodType.getFaceImage());
@@ -220,9 +220,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     }
 
-    private void saveCurrentDay() {
-        Day mCurrentDay = new Day(mMoodTypes.get(mCurrentMoodTypeID), mNote);
-        mMoodHistory.saveCurrentDay(mCurrentDay);
+    private void saveCurrentMood() {
+        Mood mCurrentMood = new Mood(mCurrentMoodTypeID, mNote);
+        mMoodHistory.saveCurrentMood(mCurrentMood);
     }
 
 
@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     @Override
     protected void onDestroy() {
-        saveCurrentDay();
+        saveCurrentMood();
         realiseMediaPlayer();
         super.onDestroy();
     }
