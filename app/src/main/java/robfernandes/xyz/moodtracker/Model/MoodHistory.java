@@ -48,8 +48,11 @@ public class MoodHistory {
         Mood mood;
         for (int i = 0; i < Constants.MAX_NUM_OF_DAYS; i++) {
             mood = loadMoodFromMemory(i);
+            //if it is null, it means there is no more moods in the memory
             if (mood != null) {
                 moodList.add(mood);
+            } else {
+                break;
             }
         }
         return moodList;
