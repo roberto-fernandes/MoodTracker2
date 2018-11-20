@@ -1,11 +1,9 @@
 package robfernandes.xyz.moodtracker;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-import robfernandes.xyz.moodtracker.Model.MoodHistory;
-import robfernandes.xyz.moodtracker.Utils.MoodType;
-
-import static org.junit.Assert.assertEquals;
+import robfernandes.xyz.moodtracker.Model.Mood;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -15,42 +13,16 @@ import static org.junit.Assert.assertEquals;
 public class ModelTest {
 
     @Test
-    public void creatingMoodType_enterID_ReturnMoodTypeID() {
-        int moodTypeID=3;
-        MoodType moodType = new MoodType(0, 0,0,moodTypeID);
+    public void moodHasNote_emptyNote_ReturnedFalse() {
+        Mood mood = new Mood(1, "");
 
-        assertEquals(moodTypeID, moodType.getMoodTypeID());
+        Assert.assertFalse(mood.hasNote());
     }
 
     @Test
-    public void moodHistory_numberOfMoodTypes_Returned5() {
-        int expectedNumberOfMoodTypes =5;
-        int actualNumberOfMoodTypes =MoodHistory.getMoodTypes().size();
+    public void moodHasNote_someNote_ReturnedTrue() {
+        Mood mood = new Mood(1, "test note");
 
-        assertEquals(expectedNumberOfMoodTypes, actualNumberOfMoodTypes);
-    }
-
-    @Test
-    public void getMoodTypeFromID_validID_getMoodType() {
-        MoodHistory moodHistory = new MoodHistory();
-        int id;
-
-        id=0;
-        assertEquals(id, moodHistory.getMoodTypeFromID(id).getMoodTypeID());
-        id=2;
-        assertEquals(id, moodHistory.getMoodTypeFromID(id).getMoodTypeID());
-        id=4;
-        assertEquals(id, moodHistory.getMoodTypeFromID(id).getMoodTypeID());
-    }
-
-    @Test
-    public void getMoodTypeFromID_invalidID_getDefaultType() {
-        MoodHistory moodHistory = new MoodHistory();
-        int id;
-        int defaultMoodTypeID = moodHistory.DEFAULT_DAY.getMoodType().getMoodTypeID();
-
-        id=-1;
-
-        assertEquals(defaultMoodTypeID, moodHistory.getMoodTypeFromID(id).getMoodTypeID());
+        Assert.assertTrue(mood.hasNote());
     }
 }
