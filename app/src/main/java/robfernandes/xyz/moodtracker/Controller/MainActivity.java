@@ -184,8 +184,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     private void setCurrentMood() {
         mCurrentMood = mMoodHistory.loadCurrentMood();
-        if (mCurrentMood.getMoodID()==Constants.EMPTY_MOOD.getMoodID()) {
-            mCurrentMood=Constants.DEFAULT_MOOD;
+        if (mCurrentMood.getMoodID() == Constants.EMPTY_MOOD.getMoodID()) {
+            mCurrentMood = Constants.DEFAULT_MOOD;
         }
         mCurrentMoodTypeID = mCurrentMood.getMoodID();
         mNote = mCurrentMood.getNote();
@@ -209,22 +209,27 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         mSuperHappyMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.super_happy);
         mHappyMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.happy);
         mNormalMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.normal);
-        mDisappointedMediaPlayer= MediaPlayer.create(getApplicationContext(), R.raw.disappointed);
+        mDisappointedMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.disappointed);
         mSadMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sad);
     }
 
     private void playSound() {
         pauseAllMediaPlayers();
         switch (mCurrentMoodTypeID) {
-            case 0: mDisappointedMediaPlayer.start();
+            case 0:
+                mDisappointedMediaPlayer.start();
                 break;
-            case 1: mSadMediaPlayer.start();
+            case 1:
+                mSadMediaPlayer.start();
                 break;
-            case 2: mNormalMediaPlayer.start();
+            case 2:
+                mNormalMediaPlayer.start();
                 break;
-            case 3: mHappyMediaPlayer.start();
+            case 3:
+                mHappyMediaPlayer.start();
                 break;
-            case 4: mSuperHappyMediaPlayer.start();
+            case 4:
+                mSuperHappyMediaPlayer.start();
                 break;
         }
     }
@@ -232,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private void pauseAllMediaPlayers() {
         pauseMediaPlayer(mSuperHappyMediaPlayer);
         pauseMediaPlayer(mHappyMediaPlayer);
-        pauseMediaPlayer(mNormalMediaPlayer );
+        pauseMediaPlayer(mNormalMediaPlayer);
         pauseMediaPlayer(mSadMediaPlayer);
         pauseMediaPlayer(mDisappointedMediaPlayer);
     }
@@ -269,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private void realiseAllMediaPlayers() {
         realiseMediaPlayer(mSuperHappyMediaPlayer);
         realiseMediaPlayer(mHappyMediaPlayer);
-        realiseMediaPlayer(mNormalMediaPlayer );
+        realiseMediaPlayer(mNormalMediaPlayer);
         realiseMediaPlayer(mSadMediaPlayer);
         realiseMediaPlayer(mDisappointedMediaPlayer);
     }

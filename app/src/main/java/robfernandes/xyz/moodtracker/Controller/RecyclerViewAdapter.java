@@ -104,7 +104,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 break;
         }
         MoodType moodType = MoodHistory.getMoodTypeFromID(mood.getMoodID());
-        if (moodType.getMoodTypeID()==Constants.EMPTY_MOOD_TYPE.getMoodTypeID()) {
+        if (moodType.getMoodTypeID() == Constants.EMPTY_MOOD_TYPE.getMoodTypeID()) {
             text += ", no entry on this day";
         }
 

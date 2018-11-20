@@ -24,7 +24,7 @@ public class MoodHistory {
     public MoodHistory(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences("MoodHistory", Context.MODE_PRIVATE);
-     //   setDumbData (); //Just for test
+        //   setDumbData (); //Just for test
         moodHistory = loadHistoryFromMemory();
     }
 
@@ -66,7 +66,7 @@ public class MoodHistory {
     public Mood loadCurrentMood() {
         Mood mood = loadMoodFromMemory(Constants.CURRENT_DAY_INDEX);
         if (mood == null) {
-            mood = Constants.DEFAULT_MOOD ;
+            mood = Constants.DEFAULT_MOOD;
         }
         return mood;
     }
@@ -94,7 +94,7 @@ public class MoodHistory {
     }
 
     public static MoodType getMoodTypeFromID(int id) {
-        if (id==Constants.EMPTY_MOOD.getMoodID()) {
+        if (id == Constants.EMPTY_MOOD.getMoodID()) {
             return Constants.EMPTY_MOOD_TYPE;
         }
         for (MoodType moodType : Constants.MOOD_TYPES) {
