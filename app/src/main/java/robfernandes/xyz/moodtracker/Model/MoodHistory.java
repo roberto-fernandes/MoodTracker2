@@ -18,9 +18,6 @@ public class MoodHistory {
     private List<Mood> moodHistory = new ArrayList<>();
     private SharedPreferences sharedPreferences;
 
-    public MoodHistory() {
-    }
-
     public MoodHistory(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences("MoodHistory", Context.MODE_PRIVATE);
