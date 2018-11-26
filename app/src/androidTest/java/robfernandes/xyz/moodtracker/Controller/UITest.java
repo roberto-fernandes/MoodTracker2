@@ -32,7 +32,7 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class ActivitiesTest {
+public class UITest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule =
