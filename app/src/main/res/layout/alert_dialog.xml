@@ -8,16 +8,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="@string/Comment"
+        android:text="@string/comment"
         android:gravity="center_vertical"
         android:layout_margin="10dp"/>
 
     <EditText
-        android:id="@+id/alert_dialog_note_EditText"
+        android:id="@+id/alert_dialog_note_edit_text"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:hint="@string/CommentHint"
+        android:hint="@string/comment_hint"
         android:inputType="text"
         android:layout_margin="10dp"
         android:maxLength="50"/>

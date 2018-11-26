@@ -3,6 +3,7 @@ package robfernandes.xyz.moodtracker.Controller;
 import android.content.Context;
 import android.graphics.Point;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -24,11 +25,11 @@ import robfernandes.xyz.moodtracker.Utils.MoodType;
 /**
  * Created by Roberto Fernandes on 07/11/2018.
  */
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class MoodHistoryAdapter extends RecyclerView.Adapter<MoodHistoryAdapter.ViewHolder> {
     private Context mContext;
     private List<Mood> mMoodList;
 
-    public RecyclerViewAdapter(Context context, List<Mood> moodList) {
+    public MoodHistoryAdapter(Context context, List<Mood> moodList) {
         mContext = context;
         mMoodList = moodList;
     }
@@ -36,7 +37,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.mood_history_row, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.mood_history_row, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -53,9 +55,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            title = itemView.findViewById(R.id.mood_history_row_title_textView);
-            noteImage = itemView.findViewById(R.id.mood_history_row_note_imageView);
-            rowCardView = itemView.findViewById(R.id.mood_history_row_cardiView);
+            title = itemView.findViewById(R.id.mood_history_row_title_text_view);
+            noteImage = itemView.findViewById(R.id.mood_history_row_note_image_view);
+            rowCardView = itemView.findViewById(R.id.mood_history_row_card_view);
 
             itemView.setOnClickListener(this);
         }
@@ -79,30 +81,31 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         switch (numberOfDaysAgo) {
             case 7:
-                text = mContext.getString(R.string.OneWeekAgo);
+                text = mContext.getString(R.string.one_week_ago);
                 break;
             case 6:
-                text = mContext.getString(R.string.SixDaysAgo);
+                text = mContext.getString(R.string.six_days_ago);
                 break;
             case 5:
-                text = mContext.getString(R.string.FiveDaysAgo);
+                text = mContext.getString(R.string.five_days_ago);
                 break;
             case 4:
-                text = mContext.getString(R.string.FourDaysAgo);
+                text = mContext.getString(R.string.four_days_ago);
                 break;
             case 3:
-                text = mContext.getString(R.string.ThreeDaysAgo);
+                text = mContext.getString(R.string.three_days_ago);
                 break;
             case 2:
-                text = mContext.getString(R.string.TwoDaysAgo);
+                text = mContext.getString(R.string.two_days_ago);
                 break;
             case 1:
-                text = mContext.getString(R.string.Yesterday);
+                text = mContext.getString(R.string.yesterday);
                 break;
             default:
-                text = mContext.getString(R.string.OneWeekAgo);
+                text = mContext.getString(R.string.one_week_ago);
                 break;
         }
+
         MoodType moodType = MoodHistory.getMoodTypeFromID(mood.getMoodID());
         if (moodType.getMoodTypeID() == Constants.EMPTY_MOOD_TYPE.getMoodTypeID()) {
             text += ", no entry on this day";
@@ -114,15 +117,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         } else {
             viewHolder.noteImage.setVisibility(View.INVISIBLE);
         }
-        //set the background color
 
-        int backgroundColor = moodType.getBackgroundColor();
-        viewHolder.rowCardView.setBackgroundColor(mContext.getResources().getColor(backgroundColor));
+        setMoodBackground(viewHolder, moodType);
+        setMoodColor(viewHolder, moodType);
+    }
 
-        // set the width and height
+    private void setMoodColor(@Nullable ViewHolder viewHolder, MoodType moodType) {
         int width = moodType.getWidthPercentage();
         viewHolder.rowCardView.getLayoutParams().width = getItemWidth(width);
         viewHolder.rowCardView.getLayoutParams().height = getItemHeight();
+    }
+
+    private void setMoodBackground(@Nullable ViewHolder viewHolder, MoodType moodType) {
+        int backgroundColor = moodType.getBackgroundColor();
+        viewHolder.rowCardView
+                .setBackgroundColor(mContext.getResources()
+                        .getColor(backgroundColor));
     }
 
     private int getItemWidth(int percentage) {
@@ -135,7 +145,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private int getItemHeight() {
         int height;
         Point size = getScreenSize();
-        //the recyclerView height is the full height minus the status bar height and then for each item it is divided for the number of items
         height = (size.y - geStatusBarHeight()) / Constants.MAX_NUM_OF_DAYS;
         return height;
     }

@@ -16,11 +16,9 @@ public class MoodType {
         this.moodTypeID = moodTypeID;
     }
 
+    //For EmptyMood there is no need for a image
     public MoodType(int moodTypeID, int widthPercentage, int backgroundColor) {
-        this.moodTypeID = moodTypeID;
-        this.widthPercentage = widthPercentage;
-        this.backgroundColor = backgroundColor;
-        faceImage = -1;
+        this(widthPercentage, backgroundColor, -1, moodTypeID);
     }
 
     public int getWidthPercentage() {

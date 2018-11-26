@@ -2,7 +2,6 @@ package robfernandes.xyz.moodtracker.Controller;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.List;
@@ -16,7 +15,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     private MoodHistory mMoodHistory;
     private List<Mood> mMoodList;
     private RecyclerView recyclerView;
-    private RecyclerViewAdapter recyclerViewAdapter;
+    private MoodHistoryAdapter mMoodHistoryAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +25,9 @@ public class MoodHistoryActivity extends AppCompatActivity {
         mMoodHistory = new MoodHistory(this);
         mMoodList = mMoodHistory.loadHistoryFromMemory();
 
-        recyclerView = findViewById(R.id.activity_mood_recyclerView);
+        recyclerView = findViewById(R.id.activity_mood_recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        recyclerViewAdapter = new RecyclerViewAdapter(this, mMoodList);
-        recyclerView.setAdapter(recyclerViewAdapter);
+        mMoodHistoryAdapter = new MoodHistoryAdapter(this, mMoodList);
+        recyclerView.setAdapter(mMoodHistoryAdapter);
     }
 }

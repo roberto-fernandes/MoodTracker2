@@ -13,16 +13,14 @@ import robfernandes.xyz.moodtracker.Model.Mood;
 public class ModelTest {
 
     @Test
-    public void moodHasNote_emptyNote_ReturnedFalse() {
+    public void doesEmptyNoteReturnFalse() {
         Mood mood = new Mood(1, "");
-
         Assert.assertFalse(mood.hasNote());
     }
 
     @Test
-    public void moodHasNote_someNote_ReturnedTrue() {
+    public void doesANoteNoteReturnTrue() {
         Mood mood = new Mood(1, "test note");
-
         Assert.assertTrue(mood.hasNote());
     }
 }

@@ -12,7 +12,6 @@ public class Mood {
         this.note = note;
     }
 
-
     public int getMoodID() {
         return moodID;
     }

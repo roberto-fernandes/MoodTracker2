@@ -13,15 +13,11 @@ import robfernandes.xyz.moodtracker.Utils.MoodType;
  * Created by Roberto Fernandes on 07/11/2018.
  */
 public class MoodHistory {
-
-    private Context context;
-    private List<Mood> moodHistory = new ArrayList<>();
+    private List<Mood> moodHistory;
     private SharedPreferences sharedPreferences;
 
     public MoodHistory(Context context) {
-        this.context = context;
         sharedPreferences = context.getSharedPreferences("MoodHistory", Context.MODE_PRIVATE);
-        //   setDumbData (); //Just for test
         moodHistory = loadHistoryFromMemory();
     }
 
@@ -83,7 +79,6 @@ public class MoodHistory {
         if (moodTypeID == -1) {
             return null;
         }
-
         note = getNoteFromMemory(index);
 
         Mood mood = new Mood(moodTypeID, note);
@@ -91,15 +86,12 @@ public class MoodHistory {
     }
 
     public static MoodType getMoodTypeFromID(int id) {
-        if (id == Constants.EMPTY_MOOD.getMoodID()) {
-            return Constants.EMPTY_MOOD_TYPE;
-        }
         for (MoodType moodType : Constants.MOOD_TYPES) {
             if (moodType.getMoodTypeID() == id) {
                 return moodType;
             }
         }
-        return Constants.DEFAULT_MOOD_TYPE;
+        return Constants.EMPTY_MOOD_TYPE;
     }
 
     private String getNoteFromMemory(int index) {
@@ -125,18 +117,4 @@ public class MoodHistory {
         editor.putString(key, value);
         editor.apply();
     }
-
-/*    private void setDumbData () { //Just for test
-        List<Mood> moodList = new ArrayList<>();
-        moodList.add(new Mood(0, ""));
-        moodList.add(new Mood(2, "s"));
-        moodList.add(new Mood(1, ""));
-        moodList.add(new Mood(3, ""));
-        moodList.add(Constants.EMPTY_MOOD);
-        moodList.add(new Mood(0, ""));
-
-        for (int i = 0; i < moodList.size(); i++) {
-            saveMoodToMemory(moodList.get(i), i);
-        }
-    }*/
 }

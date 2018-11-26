@@ -35,7 +35,8 @@ import static org.hamcrest.Matchers.allOf;
 public class ActivitiesTest {
 
     @Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> mActivityTestRule =
+            new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void activitiesTest() {
@@ -51,7 +52,7 @@ public class ActivitiesTest {
         appCompatImageView.perform(click());
 
         ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.alert_dialog_note_EditText),
+                allOf(withId(R.id.alert_dialog_note_edit_text),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.custom),
@@ -81,7 +82,7 @@ public class ActivitiesTest {
         appCompatImageView2.perform(click());
 
         ViewInteraction editText = onView(
-                allOf(withId(R.id.alert_dialog_note_EditText), withText("as"),
+                allOf(withId(R.id.alert_dialog_note_edit_text), withText("as"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.custom),
@@ -111,7 +112,7 @@ public class ActivitiesTest {
         appCompatImageView3.perform(click());
 
         ViewInteraction recyclerView = onView(
-                allOf(withId(R.id.activity_mood_recyclerView),
+                allOf(withId(R.id.activity_mood_recycler_view),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),

@@ -25,7 +25,8 @@ import robfernandes.xyz.moodtracker.Utils.Constants;
 import robfernandes.xyz.moodtracker.Utils.MoodType;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnTouchListener, GestureDetector.OnGestureListener {
+public class MainActivity extends AppCompatActivity implements View.OnTouchListener,
+        GestureDetector.OnGestureListener {
 
     private ImageView addNoteImage;
     private ImageView moodHistoryImage;
@@ -33,11 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private View background;
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private MediaPlayer mSuperHappyMediaPlayer;
-    private MediaPlayer mHappyMediaPlayer;
-    private MediaPlayer mNormalMediaPlayer;
-    private MediaPlayer mDisappointedMediaPlayer;
-    private MediaPlayer mSadMediaPlayer;
+    private MediaPlayer mMediaPlayer;
     private GestureDetector mGestureDetector;
     private Mood mCurrentMood;
     private int mCurrentMoodTypeID;
@@ -52,15 +49,19 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         mGestureDetector = new GestureDetector(this, this);
         findViewById(android.R.id.content).setOnTouchListener(this);
         mMoodHistory = new MoodHistory(this);
+        mMediaPlayer = new MediaPlayer();
 
         addNoteImage = findViewById(R.id.activity_main_note_image);
         moodHistoryImage = findViewById(R.id.activity_main_history_image);
         background = findViewById(R.id.activity_main_background);
         faceImage = findViewById(R.id.activity_main_face_image);
 
-        startMediaPlayers();
         setCurrentMood();
+        setViewClicks();
+        startAlarmManager();
+    }
 
+    private void setViewClicks() {
         //show alert dialog
         addNoteImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +70,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 // Get the layout inflater
                 LayoutInflater inflater = MainActivity.this.getLayoutInflater();
                 View mAlertDialogView = inflater.inflate(R.layout.alert_dialog, null);
-                final EditText alertDialogNote = mAlertDialogView.findViewById(R.id.alert_dialog_note_EditText);
+                final EditText alertDialogNote = mAlertDialogView
+                        .findViewById(R.id.alert_dialog_note_edit_text);
                 //If there is a note it shows
                 if (!alertDialogNote.getText().equals("")) {
                     alertDialogNote.setText(mNote);
@@ -77,13 +79,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 }
                 // Inflate and set the layout for the dialog
                 builder.setView(mAlertDialogView)
-                        .setPositiveButton(R.string.Add_note, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.add_note, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
                                 mNote = alertDialogNote.getText().toString();
                             }
                         })
-                        .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                             }
                         });
@@ -94,11 +96,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         moodHistoryImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MoodHistoryActivity.class);
+                Intent intent = new Intent(MainActivity.this
+                        , MoodHistoryActivity.class);
                 startActivity(intent);
             }
         });
-        startAlarmManager();
     }
 
     @Override
@@ -113,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         setCurrentMood();
     }
 
-    //region detection sliding up and down
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         mGestureDetector.onTouchEvent(event);
@@ -148,27 +149,25 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         double mDistance = e1.getY() - e2.getY();
-        if (mDistance > 50) {
-            nextMood();
-        } else if (mDistance < -50) {
-            previousMood();
+        if (mDistance > 0) {
+            goToNextMood();
+        } else if (mDistance < 0) {
+            goToPreviousMood();
         }
         return true;
     }
-    //endregion
 
-    private void nextMood() {
+    private void goToNextMood() {
         int lastItem = Constants.MOOD_TYPES.size() - 1;
         if (mCurrentMoodTypeID >= lastItem) {
             mCurrentMoodTypeID = 0;
         } else {
             mCurrentMoodTypeID++;
         }
-        setUI();
-        playSound();
+        changeMood();
     }
 
-    private void previousMood() {
+    private void goToPreviousMood() {
         int lastItem = Constants.MOOD_TYPES.size() - 1;
         if (mCurrentMoodTypeID <= 0) {
             mCurrentMoodTypeID = lastItem;
@@ -176,8 +175,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             mCurrentMoodTypeID--;
         }
         if (mCurrentMoodTypeID == 4) {
-            mSuperHappyMediaPlayer.start();
+            mMediaPlayer.start();
         }
+        changeMood();
+    }
+
+    private void changeMood() {
         setUI();
         playSound();
     }
@@ -193,60 +196,32 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     private void setUI() {
-        MoodType moodType = mMoodHistory.getMoodTypeFromID(mCurrentMoodTypeID);
+        MoodType moodType = MoodHistory.getMoodTypeFromID(mCurrentMoodTypeID);
         background.setBackgroundColor(getResources().getColor(moodType.getBackgroundColor()));
         faceImage.setImageResource(moodType.getFaceImage());
 
     }
 
-    private void startMediaPlayers() {
-        mSuperHappyMediaPlayer = new MediaPlayer();
-        mHappyMediaPlayer = new MediaPlayer();
-        mNormalMediaPlayer = new MediaPlayer();
-        mSadMediaPlayer = new MediaPlayer();
-        mDisappointedMediaPlayer = new MediaPlayer();
-
-        mSuperHappyMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.super_happy);
-        mHappyMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.happy);
-        mNormalMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.normal);
-        mDisappointedMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.disappointed);
-        mSadMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sad);
-    }
-
     private void playSound() {
-        pauseAllMediaPlayers();
+        releaseMediaPlayer();
         switch (mCurrentMoodTypeID) {
             case 0:
-                mDisappointedMediaPlayer.start();
+                mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sad);
                 break;
             case 1:
-                mSadMediaPlayer.start();
+                mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.disappointed);
                 break;
             case 2:
-                mNormalMediaPlayer.start();
+                mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.normal);
                 break;
             case 3:
-                mHappyMediaPlayer.start();
+                mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.happy);
                 break;
             case 4:
-                mSuperHappyMediaPlayer.start();
+                mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.super_happy);
                 break;
         }
-    }
-
-    private void pauseAllMediaPlayers() {
-        pauseMediaPlayer(mSuperHappyMediaPlayer);
-        pauseMediaPlayer(mHappyMediaPlayer);
-        pauseMediaPlayer(mNormalMediaPlayer);
-        pauseMediaPlayer(mSadMediaPlayer);
-        pauseMediaPlayer(mDisappointedMediaPlayer);
-    }
-
-    private void pauseMediaPlayer(MediaPlayer mediaPlayer) {
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.pause();
-            mediaPlayer.seekTo(0);
-        }
+        mMediaPlayer.start();
     }
 
     private void startAlarmManager() {
@@ -256,13 +231,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         midnight.set(Calendar.SECOND, 0);
         midnight.add(Calendar.DATE, 1);    //tomorrow
 
-
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getApplicationContext(), AlarmManagerReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
-        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() +500,5000, pendingIntent); //just for test
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, midnight.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-
+        PendingIntent pendingIntent = PendingIntent
+                .getBroadcast(getApplicationContext(), 0, intent, 0);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP
+                , midnight.getTimeInMillis()
+                , AlarmManager.INTERVAL_DAY
+                , pendingIntent);
     }
 
     private void saveCurrentMood() {
@@ -270,28 +246,20 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         mMoodHistory.saveCurrentMood(mCurrentMood);
     }
 
-
-    private void realiseAllMediaPlayers() {
-        realiseMediaPlayer(mSuperHappyMediaPlayer);
-        realiseMediaPlayer(mHappyMediaPlayer);
-        realiseMediaPlayer(mNormalMediaPlayer);
-        realiseMediaPlayer(mSadMediaPlayer);
-        realiseMediaPlayer(mDisappointedMediaPlayer);
-    }
-
-    private void realiseMediaPlayer(MediaPlayer mediaPlayer) {
-        if (mediaPlayer != null) {
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
+    private void releaseMediaPlayer() {
+        if (mMediaPlayer != null) {
+            if (mMediaPlayer.isPlaying()) {
+                mMediaPlayer.stop();
             }
-            mediaPlayer.release();
+            mMediaPlayer.reset();
+            mMediaPlayer.release();
         }
     }
 
     @Override
     protected void onDestroy() {
         saveCurrentMood();
-        realiseAllMediaPlayers();
+        releaseMediaPlayer();
         super.onDestroy();
     }
 }
