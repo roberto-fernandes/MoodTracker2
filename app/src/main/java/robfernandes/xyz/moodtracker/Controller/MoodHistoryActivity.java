@@ -12,22 +12,17 @@ import robfernandes.xyz.moodtracker.R;
 
 public class MoodHistoryActivity extends AppCompatActivity {
 
-    private MoodHistory mMoodHistory;
-    private List<Mood> mMoodList;
-    private RecyclerView recyclerView;
-    private MoodHistoryAdapter mMoodHistoryAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mood_history);
 
-        mMoodHistory = new MoodHistory(this);
-        mMoodList = mMoodHistory.loadHistoryFromMemory();
+        MoodHistory moodHistory = new MoodHistory(this);
+        List<Mood> moodList = moodHistory.loadHistoryFromMemory();
 
-        recyclerView = findViewById(R.id.activity_mood_recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.activity_mood_recycler_view);
         recyclerView.setHasFixedSize(true);
-        mMoodHistoryAdapter = new MoodHistoryAdapter(this, mMoodList);
-        recyclerView.setAdapter(mMoodHistoryAdapter);
+        MoodHistoryAdapter moodHistoryAdapter = new MoodHistoryAdapter(this, moodList);
+        recyclerView.setAdapter(moodHistoryAdapter);
     }
 }

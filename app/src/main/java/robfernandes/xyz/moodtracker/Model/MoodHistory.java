@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import robfernandes.xyz.moodtracker.Utils.Constants;
 import robfernandes.xyz.moodtracker.Utils.MoodType;
@@ -75,14 +76,13 @@ public class MoodHistory {
         String note;
         String key = Constants.MOOD_STRING_KEY + index;
 
-        moodTypeID = Integer.valueOf(sharedPreferences.getString(key, "-1"));
+        moodTypeID = Integer.valueOf(Objects.requireNonNull(sharedPreferences.getString(key, "-1")));
         if (moodTypeID == -1) {
             return null;
         }
         note = getNoteFromMemory(index);
 
-        Mood mood = new Mood(moodTypeID, note);
-        return mood;
+        return new Mood(moodTypeID, note);
     }
 
     public static MoodType getMoodTypeFromID(int id) {

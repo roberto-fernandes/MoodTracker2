@@ -29,7 +29,7 @@ public class MoodHistoryAdapter extends RecyclerView.Adapter<MoodHistoryAdapter.
     private Context mContext;
     private List<Mood> mMoodList;
 
-    public MoodHistoryAdapter(Context context, List<Mood> moodList) {
+    MoodHistoryAdapter(Context context, List<Mood> moodList) {
         mContext = context;
         mMoodList = moodList;
     }
@@ -52,7 +52,7 @@ public class MoodHistoryAdapter extends RecyclerView.Adapter<MoodHistoryAdapter.
         private ImageView noteImage;
         private View rowCardView;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             title = itemView.findViewById(R.id.mood_history_row_title_text_view);
@@ -124,12 +124,14 @@ public class MoodHistoryAdapter extends RecyclerView.Adapter<MoodHistoryAdapter.
 
     private void setMoodColor(@Nullable ViewHolder viewHolder, MoodType moodType) {
         int width = moodType.getWidthPercentage();
+        assert viewHolder != null;
         viewHolder.rowCardView.getLayoutParams().width = getItemWidth(width);
         viewHolder.rowCardView.getLayoutParams().height = getItemHeight();
     }
 
     private void setMoodBackground(@Nullable ViewHolder viewHolder, MoodType moodType) {
         int backgroundColor = moodType.getBackgroundColor();
+        assert viewHolder != null;
         viewHolder.rowCardView
                 .setBackgroundColor(mContext.getResources()
                         .getColor(backgroundColor));

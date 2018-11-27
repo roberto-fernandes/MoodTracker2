@@ -22,7 +22,7 @@ public final class Constants {
         add(new MoodType(100, R.color.banana_yellow
                 , R.drawable.smiley_super_happy, 4));
     }};
-    public static final MoodType DEFAULT_MOOD_TYPE = MOOD_TYPES.get(4);
+    private static final MoodType DEFAULT_MOOD_TYPE = MOOD_TYPES.get(4);
     public static final MoodType EMPTY_MOOD_TYPE = new MoodType(Integer.MAX_VALUE
             , 100, R.color.background_history_mood);
     public static final Mood EMPTY_MOOD = new Mood(EMPTY_MOOD_TYPE.getMoodTypeID(), "");

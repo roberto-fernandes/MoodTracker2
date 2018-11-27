@@ -1,5 +1,6 @@
 package robfernandes.xyz.moodtracker.Controller;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -33,10 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private ImageView faceImage;
     private View background;
 
-    private static final String TAG = MainActivity.class.getSimpleName();
     private MediaPlayer mMediaPlayer;
     private GestureDetector mGestureDetector;
-    private Mood mCurrentMood;
     private int mCurrentMoodTypeID;
     private MoodHistory mMoodHistory;
     private String mNote;
@@ -69,11 +68,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 // Get the layout inflater
                 LayoutInflater inflater = MainActivity.this.getLayoutInflater();
-                View mAlertDialogView = inflater.inflate(R.layout.alert_dialog, null);
+                @SuppressLint("InflateParams") View mAlertDialogView = inflater.inflate(R.layout.alert_dialog, null);
                 final EditText alertDialogNote = mAlertDialogView
                         .findViewById(R.id.alert_dialog_note_edit_text);
                 //If there is a note it shows
-                if (!alertDialogNote.getText().equals("")) {
+                if (!alertDialogNote.getText().toString().equals("")) {
                     alertDialogNote.setText(mNote);
                     saveCurrentMood();
                 }
@@ -115,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         setCurrentMood();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         mGestureDetector.onTouchEvent(event);
@@ -186,12 +186,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     private void setCurrentMood() {
-        mCurrentMood = mMoodHistory.loadCurrentMood();
-        if (mCurrentMood.getMoodID() == Constants.EMPTY_MOOD.getMoodID()) {
-            mCurrentMood = Constants.DEFAULT_MOOD;
+        Mood currentMood = mMoodHistory.loadCurrentMood();
+        if (currentMood.getMoodID() == Constants.EMPTY_MOOD.getMoodID()) {
+            currentMood = Constants.DEFAULT_MOOD;
         }
-        mCurrentMoodTypeID = mCurrentMood.getMoodID();
-        mNote = mCurrentMood.getNote();
+        mCurrentMoodTypeID = currentMood.getMoodID();
+        mNote = currentMood.getNote();
         setUI();
     }
 
