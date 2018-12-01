@@ -72,10 +72,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 final EditText alertDialogNote = mAlertDialogView
                         .findViewById(R.id.alert_dialog_note_edit_text);
                 //If there is a note it shows
-                if (!alertDialogNote.getText().toString().equals("")) {
                     alertDialogNote.setText(mNote);
                     saveCurrentMood();
-                }
                 // Inflate and set the layout for the dialog
                 builder.setView(mAlertDialogView)
                         .setPositiveButton(R.string.add_note, new DialogInterface.OnClickListener() {
